@@ -280,9 +280,6 @@ function scopeStores() {
 
 // ========== HOME: Dashboard + Task List ==========
 function renderHome() {
-  let h = '';
-  
-  // Overall KPI for latest task
   const task = TASKS[0];
   let tot=STORES.length, sub=0, q=0, g=0, f=0;
   STORES.forEach(st=>{
@@ -290,7 +287,7 @@ function renderHome() {
     if(s.sub)sub++; if(s.qD)q++; if(s.gD)g++; f+=s.fail;
   });
   
-  h += `<div class="kpi-row">
+  let h = `<div class="kpi-row">
     <div class="kpi-card"><div class="val">${tot}</div><div class="lbl">Tổng CH</div></div>
     <div class="kpi-card orange"><div class="val">${sub}</div><div class="lbl">Đã BC</div></div>
     <div class="kpi-card"><div class="val">${tot-sub}</div><div class="lbl">Chưa BC</div></div>
@@ -298,35 +295,28 @@ function renderHome() {
     <div class="kpi-card green"><div class="val">${g}</div><div class="lbl">GĐV chốt</div></div>
     <div class="kpi-card red"><div class="val">${f}</div><div class="lbl">Ko đạt</div></div></div>`;
   
-  // Modules
+  // Module cards
   h += `<div class="card"><h3>📸 Phương thức kiểm soát</h3>`;
-  h += `<div class="row-item" onclick="openTask('${TASKS[0].id}')"><div><div class="name">KSTT: Báo cáo hình ảnh</div><div class="meta">CH chụp ảnh → QLKV duyệt → GĐV chốt</div></div><span style="font-size:18px;">→</span></div>`;
+  h += `<div class="row-item" onclick="openBCHA()"><div><div class="name">KSTT: Báo cáo hình ảnh</div><div class="meta">CH chụp ảnh → QLKV duyệt → GĐV chốt</div></div><span style="font-size:18px;">→</span></div>`;
   h += `<div class="row-item" onclick="openCheckCam()"><div><div class="name">KSTT: Check Cam</div><div class="meta">Kiểm tra tuân thủ qua camera</div></div><span style="font-size:18px;">→</span></div>`;
+  h += `<div class="row-item" style="opacity:0.4;cursor:default;"><div><div class="name">KSTT: Khác</div><div class="meta">Đang phát triển</div></div></div>`;
   h += `</div>`;
   
-  // Tasks
-  h += `<div class="card"><h3>📋 Danh sách Task kiểm tra</h3><div class="task-grid">`;
-  TASKS.forEach(task => {
-    let tSub=0, tQ=0, tG=0, tF=0;
-    STORES.forEach(st=>{
-      const s=taskStats(task.id, st.code);
-      if(s.sub)tSub++; if(s.qD)tQ++; if(s.gD)tG++; tF+=s.fail;
-    });
-    h += `<div class="task-card" onclick="openTask('${task.id}')">
-      <div class="task-name">📋 ${task.name}</div>
-      <div class="task-meta">${task.date} · ${task.items.length} đầu mục</div>
-      <div class="task-stats">
-        <span>📸 BC: <b>${tSub}/${tot}</b></span><span>✅ Duyệt: <b>${tQ}</b></span><span>🔒 Chốt: <b>${tG}</b></span><span>❌ Ko đạt: <b>${tF}</b></span>
-      </div></div>`;
-  });
-  h += `</div></div>`;
-  
   // By GĐV
-  h += `<div class="card"><h3>📊 Theo GĐV (${task.name})</h3>`;
+  h += `<div class="card"><h3>📊 Theo GĐV</h3>`;
   GDV_LIST.forEach(gdv=>{
     const gs=STORES.filter(s=>s.gdv===gdv); let sS=0,sQ=0,sG=0;
     gs.forEach(s=>{const st=taskStats(task.id,s.code);if(st.sub)sS++;if(st.qD)sQ++;if(st.gD)sG++;});
-    h += `<div class="row-item" onclick="openTaskByGDV('${task.id}','${gdv}')"><div><div class="name">👔 ${gdv}</div><div class="meta">${gs.length} CH</div></div><div style="text-align:right;"><b>${sS}/${gs.length}</b><br><span style="font-size:10px;color:var(--gray);">QLKV:${sQ} · GĐV:${sG}</span></div></div>`;
+    h += `<div class="row-item"><div><div class="name">👔 ${gdv}</div><div class="meta">${gs.length} CH</div></div><div style="text-align:right;"><b>${sS}/${gs.length}</b><br><span style="font-size:10px;color:var(--gray);">QLKV:${sQ} · GĐV:${sG}</span></div></div>`;
+  });
+  h += `</div>`;
+  
+  // CH detail
+  h += `<div class="card"><h3>📋 Chi tiết CH</h3>`;
+  STORES.forEach(st=>{
+    const s=taskStats(task.id,st.code);
+    let status=s.sub?(s.gD?'<span class="verdict verdict-pass">✅</span>':s.qD?'<span style="color:var(--blue);">✅QLKV</span>':'<span style="color:var(--orange);">⏳</span>'):'<span style="color:var(--gray);">⏳</span>';
+    h += `<div class="row-item"><div><div class="name">${st.code} - ${st.name}</div><div class="meta">${st.gdv} · 📸${s.done}/${s.total}</div></div><div style="display:flex;align-items:center;gap:4px;min-width:100px;"><div class="progress-bar"><div class="fill" style="width:${s.pct}%;background:${s.pct>=80?'var(--green)':s.pct>=50?'var(--orange)':'var(--red)'};"></div></div><span style="font-size:11px;">${status}</span></div></div>`;
   });
   h += `</div>`;
   
@@ -481,6 +471,31 @@ function buildDashboardTab(task) {
 }
 
 // ========== CHECK CAM ==========
+
+// ========== BCHA: Task List ==========
+function openBCHA() {
+  const c = document.getElementById('appContent');
+  c.className = 'main';
+  
+  let h = `<div class="back-bar"><span class="back" onclick="goHome()">←</span><span class="title">📸 KSTT: Báo cáo hình ảnh</span></div>
+    <div class="card"><h3>📋 Chọn Task kiểm tra</h3><div class="task-grid">`;
+  
+  TASKS.forEach(task => {
+    let tSub=0, tQ=0, tG=0, tF=0;
+    STORES.forEach(st=>{
+      const s=taskStats(task.id, st.code);
+      if(s.sub)tSub++; if(s.qD)tQ++; if(s.gD)tG++; tF+=s.fail;
+    });
+    h += `<div class="task-card" onclick="openTask('${task.id}')">
+      <div class="task-name">📋 ${task.name}</div>
+      <div class="task-meta">${task.date} · ${task.items.length} đầu mục</div>
+      <div class="task-stats">
+        <span>📸 BC: <b>${tSub}/${STORES.length}</b></span><span>✅ Duyệt: <b>${tQ}</b></span><span>🔒 Chốt: <b>${tG}</b></span><span>❌ Ko đạt: <b>${tF}</b></span>
+      </div></div>`;
+  });
+  h += `</div></div>`;
+  c.innerHTML = h;
+}
 function openCheckCam() {
   const c = document.getElementById('appContent');
   c.className = 'main';
