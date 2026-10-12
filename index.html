@@ -16,81 +16,83 @@ body { font-family:'Segoe UI',Arial,sans-serif; background:var(--bg); color:#1a1
 
 .topbar {
   background: linear-gradient(135deg, #1e293b, #334155);
-  color:#fff; padding:8px 14px; display:flex; align-items:center; justify-content:space-between;
-  position:sticky; top:0; z-index:200; box-shadow:0 2px 8px rgba(0,0,0,0.2);
+  color:#fff; padding:6px 10px; display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:200; box-shadow:0 2px 8px rgba(0,0,0,0.2); gap:6px;
 }
-.topbar h1 { font-size:15px; font-weight:700; }
-.topbar h1 span.by { font-size:10px; opacity:0.6; font-weight:400; margin-left:4px; white-space:nowrap; }
+.topbar h1 { font-size:14px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .topbar h1 .title-text { display:inline; }
-@media(max-width:600px){ .topbar h1 .title-text { display:none; } .topbar h1 { font-size:13px; } .topbar { padding:8px 10px; } }
+.topbar h1 .by { font-size:9px; opacity:0.5; font-weight:400; margin-left:2px; }
+@media(max-width:480px){ .topbar h1 .title-text { display:none; } .topbar h1 { font-size:13px; } }
+
 .topbar .actions { display:flex; gap:4px; align-items:center; flex-shrink:0; }
-.topbar .actions button, .topbar .actions select {
-  padding:5px 8px; border-radius:5px; border:1px solid rgba(255,255,255,.3);
-  background:rgba(255,255,255,.1); color:#fff; font-size:11px; cursor:pointer; font-family:inherit; max-width:110px;
+.topbar .actions select {
+  padding:5px 6px; border-radius:5px; border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.1); color:#fff; font-size:11px; cursor:pointer; font-family:inherit; max-width:100px;
 }
 .topbar .actions select option { color:#333; }
-
-.main { max-width:960px; margin:0 auto; padding:12px 14px 60px; }
-.sub-page { max-width:960px; margin:0 auto; padding:10px 14px 60px; }
-.sub-header {
-  display:flex; align-items:center; gap:10px; margin-bottom:12px;
-  padding:10px 14px; background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+.topbar .actions button {
+  padding:4px 8px; border-radius:5px; border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.1); color:#fff; font-size:16px; cursor:pointer; line-height:1;
 }
-.sub-header .back { font-size:20px; cursor:pointer; color:var(--blue); flex-shrink:0; }
-.sub-header .title { font-size:15px; font-weight:700; }
+
+.main { max-width:960px; margin:0 auto; padding:12px 12px 60px; }
 
 /* ---- COMPONENTS ---- */
-.info-bar {
-  background:var(--card); border-radius:var(--radius); padding:10px 14px; margin-bottom:10px;
-  box-shadow:var(--shadow); display:flex; justify-content:space-between; align-items:center;
-}
-.info-bar .title { font-weight:700; font-size:13px; }
-.info-bar .sub { font-size:11px; color:var(--gray); }
-
-.kpi-row { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
+.kpi-row { display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap; }
 .kpi-card {
-  flex:1; min-width:90px; background:var(--card); border-radius:var(--radius); padding:14px;
+  flex:1; min-width:80px; background:var(--card); border-radius:var(--radius); padding:12px 10px;
   text-align:center; box-shadow:var(--shadow); border-top:3px solid var(--blue);
 }
 .kpi-card.red { border-top-color:var(--red); }
 .kpi-card.orange { border-top-color:var(--orange); }
 .kpi-card.green { border-top-color:var(--green); }
-.kpi-card .val { font-size:24px; font-weight:800; }
-.kpi-card .lbl { font-size:10px; color:var(--gray); margin-top:2px; }
+.kpi-card .val { font-size:22px; font-weight:800; }
+.kpi-card .lbl { font-size:9px; color:var(--gray); margin-top:2px; }
 
 .card {
-  background:var(--card); border-radius:var(--radius); padding:14px; margin-bottom:10px;
+  background:var(--card); border-radius:var(--radius); padding:12px; margin-bottom:8px;
   box-shadow:var(--shadow);
 }
-.card h3 { font-size:14px; color:var(--blue); margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:6px; }
+.card h3 { font-size:13px; color:var(--blue); margin-bottom:8px; border-bottom:1px solid #eee; padding-bottom:5px; }
 
 .row-item {
-  display:flex; justify-content:space-between; align-items:center; padding:8px 0;
+  display:flex; justify-content:space-between; align-items:center; padding:7px 0;
   border-bottom:1px solid #f5f5f5; cursor:pointer;
 }
-.row-item:hover { background:#f8f9fa; margin:0 -14px; padding:8px 14px; }
+.row-item:hover { background:#f8f9fa; margin:0 -12px; padding:7px 12px; }
 .row-item .name { font-size:13px; font-weight:600; }
 .row-item .meta { font-size:11px; color:var(--gray); }
 
-.progress-bar { flex:1; height:8px; background:#eee; border-radius:4px; margin:0 10px; overflow:hidden; }
+.progress-bar { flex:1; height:7px; background:#eee; border-radius:4px; margin:0 8px; overflow:hidden; }
 .progress-bar .fill { height:100%; border-radius:4px; transition:width .3s; }
 
-.module-grid { display:flex; flex-direction:column; gap:10px; }
-.module-card {
-  background:var(--card); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow);
-  cursor:pointer; transition:all .2s; border-left:5px solid var(--blue);
-  display:flex; align-items:center; gap:12px;
+/* Task cards */
+.task-grid { display:flex; flex-direction:column; gap:10px; }
+.task-card {
+  background:var(--card); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow);
+  cursor:pointer; transition:all .2s; border-left:5px solid var(--blue-light);
 }
-.module-card:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(0,0,0,0.12); }
-.module-card:nth-child(1) { border-left-color: var(--blue-light); }
-.module-card:nth-child(2) { border-left-color: #6366f1; }
-.module-icon { font-size:32px; }
-.module-info .name { font-size:15px; font-weight:700; }
-.module-info .desc { font-size:12px; color:var(--gray); margin-top:2px; }
-.module-arrow { font-size:20px; color:#ccc; margin-left:auto; }
+.task-card:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(0,0,0,0.12); }
+.task-card .task-name { font-size:15px; font-weight:700; }
+.task-card .task-meta { font-size:11px; color:var(--gray); margin-top:3px; }
+.task-card .task-stats { display:flex; gap:16px; margin-top:8px; font-size:12px; }
 
-/* BCHA */
-.kstt-list { display:flex; flex-direction:column; gap:8px; }
+.tab-row { display:flex; gap:4px; margin-bottom:10px; flex-wrap:wrap; }
+.tab-btn {
+  padding:7px 14px; border-radius:7px; border:1px solid #ddd; background:#fff;
+  font-size:12px; font-weight:600; cursor:pointer;
+}
+.tab-btn.active { background:var(--blue); color:#fff; border-color:var(--blue); }
+
+.back-bar {
+  display:flex; align-items:center; gap:8px; margin-bottom:10px;
+  padding:10px 12px; background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+}
+.back-bar .back { font-size:18px; cursor:pointer; color:var(--blue); flex-shrink:0; }
+.back-bar .title { font-size:14px; font-weight:700; }
+
+/* KSTT items */
+.kstt-list { display:flex; flex-direction:column; gap:6px; }
 .kstt-item {
   background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
   overflow:hidden; border-left:4px solid #ddd;
@@ -98,63 +100,60 @@ body { font-family:'Segoe UI',Arial,sans-serif; background:var(--bg); color:#1a1
 .kstt-item.done { border-left-color:var(--green); }
 .kstt-item.fail { border-left-color:var(--red); }
 .kstt-header {
-  padding:12px 14px; display:flex; justify-content:space-between; align-items:center;
+  padding:10px 12px; display:flex; justify-content:space-between; align-items:center;
   cursor:pointer; border-bottom:1px solid #f0f0f0;
 }
 .kstt-header .name { font-size:13px; font-weight:600; }
-.kstt-header .badge { font-size:11px; }
+.kstt-header .badge { font-size:10px; }
 .badge-todo { color:var(--gray); }
 .badge-done { color:var(--green); font-weight:600; }
 .badge-fail { color:var(--red); font-weight:600; }
-.kstt-body { padding:12px 14px; display:none; flex-direction:column; gap:10px; }
-
-.sample-img { width:100%; max-height:260px; object-fit:contain; border-radius:8px; border:1px solid #eee; background:#fafafa; }
-.standard-text { font-size:12px; color:#333; background:#f8f9fa; padding:10px; border-radius:6px; line-height:1.5; }
-.standard-text b { color:var(--blue); }
+.kstt-body { padding:10px 12px; display:none; flex-direction:column; gap:8px; }
+.kstt-body .sample-img { width:100%; max-height:240px; object-fit:contain; border-radius:6px; border:1px solid #eee; background:#fafafa; }
+.kstt-body .standard-text { font-size:11px; color:#333; background:#f8f9fa; padding:8px 10px; border-radius:6px; line-height:1.4; }
+.kstt-body .standard-text b { color:var(--blue); }
 
 .capture-box {
-  border:2px dashed #ccc; border-radius:8px; padding:20px; text-align:center; cursor:pointer;
-  background:#fafafa; min-height:80px;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  border:2px dashed #ccc; border-radius:8px; padding:16px; text-align:center; cursor:pointer;
+  background:#fafafa; min-height:60px; display:flex; flex-direction:column; align-items:center; justify-content:center;
 }
 .capture-box:hover { border-color:var(--blue-light); background:#f0f7ff; }
-.capture-box .icon { font-size:32px; margin-bottom:4px; }
-.capture-box .text { font-size:12px; color:var(--gray); }
+.capture-box .icon { font-size:28px; margin-bottom:2px; }
+.capture-box .text { font-size:11px; color:var(--gray); }
 .capture-box.has-photo { border-color:var(--green); border-style:solid; padding:4px; }
 .capture-box.has-photo .icon, .capture-box.has-photo .text { display:none; }
-.capture-box.has-photo img { max-width:100%; max-height:250px; border-radius:6px; }
+.capture-box.has-photo img { max-width:100%; max-height:220px; border-radius:4px; }
 
 .deviation-input {
-  width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;
-  font-size:13px; font-family:inherit; resize:vertical; min-height:44px;
+  width:100%; padding:8px; border:1px solid #ddd; border-radius:6px; font-size:12px; resize:vertical; min-height:40px;
 }
 
+.review-row { display:flex; gap:6px; flex-wrap:wrap; }
+.review-col { flex:1; min-width:46%; border-radius:6px; border:1px solid #eee; }
+.review-col .label { font-size:10px; color:var(--gray); padding:3px 6px; background:#f8f9fa; border-radius:6px 6px 0 0; }
+.review-col img { width:100%; max-height:180px; object-fit:contain; background:#fafafa; border-radius:0 0 6px 6px; }
+.review-actions { display:flex; gap:4px; align-items:center; margin-top:6px; flex-wrap:wrap; }
+
+.verdict { display:inline-block; padding:3px 8px; border-radius:5px; font-size:11px; font-weight:700; }
+.verdict-pass { background:#eafaf1; color:var(--green); }
+.verdict-fail { background:#fdedec; color:var(--red); }
+
 .btn {
-  padding:8px 16px; border:none; border-radius:7px; font-size:12px; font-weight:600;
-  cursor:pointer; display:inline-flex; align-items:center; gap:4px;
+  padding:7px 14px; border:none; border-radius:6px; font-size:12px; font-weight:600;
+  cursor:pointer; display:inline-flex; align-items:center; gap:3px;
 }
 .btn-primary { background:var(--blue-light); color:#fff; }
 .btn-pass { background:var(--green); color:#fff; }
 .btn-fail { background:var(--red); color:#fff; }
 .btn-outline { background:#fff; color:var(--blue); border:2px solid var(--blue-light); }
-.btn-sm { padding:5px 12px; font-size:11px; }
-.btn-block { width:100%; justify-content:center; padding:14px; font-size:15px; }
+.btn-sm { padding:5px 10px; font-size:11px; }
+.btn-block { width:100%; justify-content:center; padding:12px; font-size:14px; }
 
-.review-row { display:flex; gap:8px; flex-wrap:wrap; }
-.review-col { flex:1; min-width:46%; border-radius:8px; border:1px solid #eee; }
-.review-col .label { font-size:10px; color:var(--gray); padding:4px 8px; background:#f8f9fa; border-radius:8px 8px 0 0; }
-.review-col img { width:100%; max-height:200px; object-fit:contain; background:#fafafa; border-radius:0 0 8px 8px; }
-.review-actions { display:flex; gap:6px; align-items:center; margin-top:8px; flex-wrap:wrap; }
-
-.verdict { display:inline-block; padding:4px 10px; border-radius:6px; font-size:12px; font-weight:700; }
-.verdict-pass { background:#eafaf1; color:var(--green); }
-.verdict-fail { background:#fdedec; color:var(--red); }
-
-.iframe-wrap { width:100%; height:calc(100vh - 56px); border:none; background:#fff; }
+.iframe-wrap { width:100%; height:calc(100vh - 50px); border:none; background:#fff; border-radius:var(--radius); }
 
 .toast {
   position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
-  background:#333; color:#fff; padding:12px 24px; border-radius:20px; font-size:13px;
+  background:#333; color:#fff; padding:10px 20px; border-radius:20px; font-size:12px;
   z-index:999; opacity:0; transition:opacity .3s;
 }
 .toast.show { opacity:1; }
@@ -162,39 +161,50 @@ body { font-family:'Segoe UI',Arial,sans-serif; background:var(--bg); color:#1a1
 </head>
 <body>
 
-<!-- TOPBAR -->
 <div class="topbar">
   <h1>📸 KSTT · <span class="title-text">Basic &amp; Kiểm soát tuân thủ</span> <span class="by">By HaoDT v1.0</span></h1>
-  <div class="actions" id="topActions">
-    <select id="selRole" onchange="onRoleChange()" style="max-width:100px;">
+  <div class="actions">
+    <select id="selRole" onchange="onRoleChange()" style="max-width:80px;">
       <option value="">👁️ Xem</option>
-      <option value="QLKV">👤 QLKV</option>
-      <option value="GDV">👔 GĐV</option>
-      <option value="GDM">🏢 GĐM</option>
+      <option value="QLKV">QLKV</option>
+      <option value="GDV">GĐV</option>
+      <option value="GDM">GĐM</option>
     </select>
-    <select id="selUser" onchange="onUserChange()" style="max-width:140px;display:none;">
+    <select id="selUser" onchange="onUserChange()" style="max-width:110px;display:none;">
       <option value="">-- Chọn --</option>
     </select>
-    <button onclick="goHome()" style="font-size:18px;padding:2px 8px;" title="Trang chính">🏠</button>
+    <button onclick="goHome()" title="Trang chính">🏠</button>
   </div>
 </div>
 
-<!-- MAIN CONTENT -->
 <div id="appContent" class="main"></div>
-
 <div class="toast" id="toast"></div>
 
 <script>
 // ========== DATA ==========
-const KSTT_ITEMS = [
-  { id:'k1', section:'Ngoại thất', name:'1. Mặt tiền & Biển hiệu', standard:'Biển hiệu WCM sáng rõ, không che khuất, đúng màu thương hiệu. Mặt tiền sạch sẽ.', sample:'https://placehold.co/600x400/2980b9/white?text=Mau+Mat+Tien' },
-  { id:'k2', section:'Trong CH', name:'2. Kệ Rau - Trưng bày', standard:'Rau xếp gọn gàng theo nhóm, có bảng giá. Không có rau héo/dập.', sample:'https://placehold.co/600x400/27ae60/white?text=Mau+Ke+Rau' },
-  { id:'k3', section:'Trong CH', name:'3. Kệ Thịt - Tươi sống', standard:'Thịt bảo quản đúng nhiệt độ. Trưng bày theo loại, có giá niêm yết.', sample:'https://placehold.co/600x400/e74c3c/white?text=Mau+Ke+Thit' },
-  { id:'k4', section:'Trong CH', name:'4. Kệ Gạo - Hàng khô', standard:'Gạo xếp theo thương hiệu, có bảng giá. Không bụi, ẩm mốc.', sample:'https://placehold.co/600x400/f39c12/white?text=Mau+Ke+Gao' },
-  { id:'k5', section:'Trong CH', name:'5. Showcase - Trưng bày KM', standard:'Hàng KM trưng bày nổi bật, có poster/promo. Sản phẩm còn date.', sample:'https://placehold.co/600x400/8e44ad/white?text=Mau+Showcase+KM' },
-  { id:'k6', section:'Trong CH', name:'6. Quầy thu ngân', standard:'Quầy sạch sẽ, gọn gàng. Có bảng giá dịch vụ. Máy POS hoạt động.', sample:'https://placehold.co/600x400/2c3e50/white?text=Mau+Quay+Thu+Ngan' },
-  { id:'k7', section:'Kho', name:'7. Kho hàng', standard:'Hàng xếp gọn, FIFO. Không ẩm mốc, có lối đi.', sample:'https://placehold.co/600x400/7f8c8d/white?text=Mau+Kho+Hang' },
-  { id:'k8', section:'Vệ sinh', name:'8. Vệ sinh CH', standard:'Sàn sạch, không rác. Thùng rác có nắp đậy.', sample:'https://placehold.co/600x400/16a085/white?text=Mau+Ve+Sinh' },
+// Tasks = inspection rounds
+const TASKS = [
+  {
+    id:'t1', name:'Đợt kiểm tra T10/2026', date:'01/10 - 31/10/2026',
+    items: [
+      { id:'k1', section:'Ngoại thất', name:'1. Mặt tiền & Biển hiệu', standard:'Biển hiệu WCM sáng rõ, không che khuất, đúng màu thương hiệu. Mặt tiền sạch sẽ.', sample:'https://placehold.co/600x400/2980b9/white?text=Mau+Mat+Tien' },
+      { id:'k2', section:'Trong CH', name:'2. Kệ Rau - Trưng bày', standard:'Rau xếp gọn gàng theo nhóm, có bảng giá. Không có rau héo/dập.', sample:'https://placehold.co/600x400/27ae60/white?text=Mau+Ke+Rau' },
+      { id:'k3', section:'Trong CH', name:'3. Kệ Thịt - Tươi sống', standard:'Thịt bảo quản đúng nhiệt độ. Trưng bày theo loại, có giá niêm yết.', sample:'https://placehold.co/600x400/e74c3c/white?text=Mau+Ke+Thit' },
+      { id:'k4', section:'Trong CH', name:'4. Kệ Gạo - Hàng khô', standard:'Gạo xếp theo thương hiệu, có bảng giá. Không bụi, ẩm mốc.', sample:'https://placehold.co/600x400/f39c12/white?text=Mau+Ke+Gao' },
+      { id:'k5', section:'Trong CH', name:'5. Showcase - Trưng bày KM', standard:'Hàng KM nổi bật, poster/promo rõ ràng. Sản phẩm còn date.', sample:'https://placehold.co/600x400/8e44ad/white?text=Mau+Showcase' },
+      { id:'k6', section:'Trong CH', name:'6. Quầy thu ngân', standard:'Quầy sạch sẽ, gọn gàng. Có bảng giá. Máy POS hoạt động.', sample:'https://placehold.co/600x400/2c3e50/white?text=Mau+Quay+Thu+Ngan' },
+      { id:'k7', section:'Kho', name:'7. Kho hàng', standard:'Hàng xếp gọn, FIFO. Không ẩm mốc, có lối đi.', sample:'https://placehold.co/600x400/7f8c8d/white?text=Mau+Kho+Hang' },
+      { id:'k8', section:'Vệ sinh', name:'8. Vệ sinh CH', standard:'Sàn sạch, không rác. Thùng rác có nắp đậy.', sample:'https://placehold.co/600x400/16a085/white?text=Mau+Ve+Sinh' },
+    ]
+  },
+  {
+    id:'t2', name:'Đợt kiểm tra T9/2026', date:'01/09 - 30/09/2026',
+    items: [
+      { id:'k1', section:'Ngoại thất', name:'1. Mặt tiền & Biển hiệu', standard:'Biển hiệu WCM sáng rõ, không che khuất.', sample:'https://placehold.co/600x400/2980b9/white?text=Mau+Mat+Tien' },
+      { id:'k2', section:'Trong CH', name:'2. Kệ Rau - Trưng bày', standard:'Rau xếp gọn gàng theo nhóm.', sample:'https://placehold.co/600x400/27ae60/white?text=Mau+Ke+Rau' },
+      { id:'k3', section:'Trong CH', name:'3. Kệ Thịt - Tươi sống', standard:'Thịt bảo quản đúng nhiệt độ.', sample:'https://placehold.co/600x400/e74c3c/white?text=Mau+Ke+Thit' },
+    ]
+  }
 ];
 
 const STORES = [
@@ -211,279 +221,274 @@ const STORES = [
 
 const QLKV_LIST = [...new Set(STORES.map(s=>s.qlkv))].sort();
 const GDV_LIST = [...new Set(STORES.map(s=>s.gdv))].sort();
-const GDM_LIST = [...new Set(STORES.map(s=>s.gdm))].sort();
 
 // ========== STATE ==========
-const S = { role:null, user:null, page:'dashboard', viewStore:null, submissions:{} };
+const S = { role:null, user:null, view:'home', taskId:null, tab:'review', submissions:{} };
 
 function init() {
-  const saved = localStorage.getItem('kstt_v4');
+  const saved = localStorage.getItem('kstt_v5');
   if(saved){ try{S.submissions=JSON.parse(saved).submissions||{}}catch(e){} }
-  // Build select
   QLKV_LIST.forEach(q=>document.getElementById('selUser').innerHTML+=`<option class="opt-qlkv" value="QLKV:${q}">${q}</option>`);
   GDV_LIST.forEach(g=>document.getElementById('selUser').innerHTML+=`<option class="opt-gdv" value="GDV:${g}">${g}</option>`);
-  GDM_LIST.forEach(m=>document.getElementById('selUser').innerHTML+=`<option class="opt-gdm" value="GDM:${m}">${m}</option>`);
-  renderDashboard();
+  ['Trần Đăng Hảo'].forEach(m=>document.getElementById('selUser').innerHTML+=`<option class="opt-gdm" value="GDM:${m}">${m}</option>`);
+  renderHome();
 }
-function save(){ localStorage.setItem('kstt_v4',JSON.stringify({submissions:S.submissions})); }
+function save(){ localStorage.setItem('kstt_v5',JSON.stringify({submissions:S.submissions})); }
+
+// Submissions key: S.submissions[taskId][storeCode][itemId]
+function getSub(taskId, storeCode) { return (S.submissions[taskId]||{})[storeCode]||{}; }
+function setSub(taskId, storeCode, itemId, data) {
+  if(!S.submissions[taskId]) S.submissions[taskId]={};
+  if(!S.submissions[taskId][storeCode]) S.submissions[taskId][storeCode]={};
+  if(!S.submissions[taskId][storeCode][itemId]) S.submissions[taskId][storeCode][itemId]={};
+  Object.assign(S.submissions[taskId][storeCode][itemId], data);
+}
 
 // ========== AUTH ==========
 function onRoleChange() {
   const role = document.getElementById('selRole').value;
-  const selUser = document.getElementById('selUser');
-  if (!role) { S.role=null; S.user=null; selUser.style.display='none'; renderDashboard(); return; }
-  S.role = role;
-  selUser.style.display = 'inline-block';
-  // Filter options
-  selUser.querySelectorAll('option').forEach(o => {
-    const cls = o.className;
-    o.style.display = (!cls || cls.includes(role.toLowerCase())) ? '' : 'none';
-  });
-  selUser.value = '';
-  S.user = null;
+  const sel = document.getElementById('selUser');
+  if(!role){ S.role=null; S.user=null; sel.style.display='none'; return; }
+  S.role=role; sel.style.display='inline-block';
+  sel.querySelectorAll('option').forEach(o=>{ o.style.display=(!o.className||o.className.includes(role.toLowerCase()))?'':'none'; });
+  sel.value=''; S.user=null;
 }
-
 function onUserChange() {
-  const val = document.getElementById('selUser').value;
-  if (!val) { S.user=null; return; }
-  const [role, name] = val.split(':');
-  S.role = role; S.user = {name, role};
-  document.getElementById('selRole').value = role;
-  // stay on current page but may need refresh
+  const val = document.getElementById('selUser').value; if(!val){ S.user=null; return; }
+  const [role,name] = val.split(':'); S.role=role; S.user={name,role};
 }
 
-// ========== NAV ==========
-function goHome() { S.page='dashboard'; S.viewStore=null; renderDashboard(); }
+function goHome(){ S.view='home'; S.taskId=null; renderHome(); }
 
-function openModule(mod) {
-  if (mod === 'bcha') {
-    if (!S.user || !S.role) return toast('⚠️ Chọn vai trò & người dùng trước');
-    S.page = 'bcha';
-    S.viewStore = null;
-    renderBCHA();
-  } else if (mod === 'checkcam') {
-    S.page = 'checkcam';
-    renderCheckCam();
-  }
+// ========== HELPERS ==========
+function taskStats(taskId, storeCode) {
+  const task = TASKS.find(t=>t.id===taskId);
+  if(!task) return {done:0,total:0,fail:0,sub:false,qD:false,gD:false,pct:0};
+  const subs = getSub(taskId, storeCode), meta = subs._meta||{};
+  const done = task.items.filter(i=>subs[i.id]&&subs[i.id].photo).length;
+  const fail = task.items.filter(i=>subs[i.id]&&subs[i.id].qlkvVerdict==='fail').length;
+  return {done, fail, total:task.items.length, sub:done>0, qD:!!meta.qlkvReviewed, gD:!!meta.gdvFinalized,
+    pct:Math.round(done/task.items.length*100)};
 }
 
-// ========== RENDER: DASHBOARD ==========
-function renderDashboard() {
-  const all = STORES;
-  let tot=all.length, sub=0, q=0, g=0, f=0;
-  all.forEach(st=>{ const s=chStats(st.code); if(s.sub)sub++; if(s.qD)q++; if(s.gD)g++; f+=s.fail; });
+function scopeStores() {
+  const r = S.role;
+  if(r==='QLKV') return STORES.filter(s=>s.qlkv===S.user.name);
+  if(r==='GDV') return STORES.filter(s=>s.gdv===S.user.name);
+  return STORES;
+}
 
-  let h = `<div class="kpi-row">
+// ========== HOME: Dashboard + Task List ==========
+function renderHome() {
+  let h = '';
+  
+  // Overall KPI for latest task
+  const task = TASKS[0];
+  let tot=STORES.length, sub=0, q=0, g=0, f=0;
+  STORES.forEach(st=>{
+    const s=taskStats(task.id, st.code);
+    if(s.sub)sub++; if(s.qD)q++; if(s.gD)g++; f+=s.fail;
+  });
+  
+  h += `<div class="kpi-row">
     <div class="kpi-card"><div class="val">${tot}</div><div class="lbl">Tổng CH</div></div>
     <div class="kpi-card orange"><div class="val">${sub}</div><div class="lbl">Đã BC</div></div>
     <div class="kpi-card"><div class="val">${tot-sub}</div><div class="lbl">Chưa BC</div></div>
     <div class="kpi-card green"><div class="val">${q}</div><div class="lbl">QLKV duyệt</div></div>
     <div class="kpi-card green"><div class="val">${g}</div><div class="lbl">GĐV chốt</div></div>
     <div class="kpi-card red"><div class="val">${f}</div><div class="lbl">Ko đạt</div></div></div>`;
-
-  // Module cards
-  h += `<div class="module-grid">
-    <div class="module-card" onclick="openModule('bcha')">
-      <div class="module-icon">📸</div>
-      <div class="module-info"><div class="name">KSTT: Báo cáo hình ảnh</div><div class="desc">CH chụp ảnh → QLKV duyệt → GĐV chốt</div></div>
-      <div class="module-arrow">→</div>
-    </div>
-    <div class="module-card" onclick="openModule('checkcam')">
-      <div class="module-icon">📝</div>
-      <div class="module-info"><div class="name">KSTT: Check Cam</div><div class="desc">Kiểm tra tuân thủ qua camera</div></div>
-      <div class="module-arrow">→</div>
-    </div>
-    <div class="module-card" style="opacity:0.5;cursor:default;">
-      <div class="module-icon">📋</div>
-      <div class="module-info"><div class="name">KSTT: Khác</div><div class="desc">Đang phát triển</div></div>
-    </div>
-  </div>`;
-
+  
+  // Modules
+  h += `<div class="card"><h3>📸 Phương thức kiểm soát</h3>`;
+  h += `<div class="row-item" onclick="openTask('${TASKS[0].id}')"><div><div class="name">KSTT: Báo cáo hình ảnh</div><div class="meta">CH chụp ảnh → QLKV duyệt → GĐV chốt</div></div><span style="font-size:18px;">→</span></div>`;
+  h += `<div class="row-item" onclick="openCheckCam()"><div><div class="name">KSTT: Check Cam</div><div class="meta">Kiểm tra tuân thủ qua camera</div></div><span style="font-size:18px;">→</span></div>`;
+  h += `</div>`;
+  
+  // Tasks
+  h += `<div class="card"><h3>📋 Danh sách Task kiểm tra</h3><div class="task-grid">`;
+  TASKS.forEach(task => {
+    let tSub=0, tQ=0, tG=0, tF=0;
+    STORES.forEach(st=>{
+      const s=taskStats(task.id, st.code);
+      if(s.sub)tSub++; if(s.qD)tQ++; if(s.gD)tG++; tF+=s.fail;
+    });
+    h += `<div class="task-card" onclick="openTask('${task.id}')">
+      <div class="task-name">📋 ${task.name}</div>
+      <div class="task-meta">${task.date} · ${task.items.length} đầu mục</div>
+      <div class="task-stats">
+        <span>📸 BC: <b>${tSub}/${tot}</b></span><span>✅ Duyệt: <b>${tQ}</b></span><span>🔒 Chốt: <b>${tG}</b></span><span>❌ Ko đạt: <b>${tF}</b></span>
+      </div></div>`;
+  });
+  h += `</div></div>`;
+  
   // By GĐV
-  h += `<div class="card"><h3>📊 Theo GĐV</h3>`;
-  GDV_LIST.forEach(gdv => {
-    const gs = STORES.filter(s=>s.gdv===gdv); let sS=0,sQ=0,sG=0;
-    gs.forEach(s=>{const st=chStats(s.code);if(st.sub)sS++;if(st.qD)sQ++;if(st.gD)sG++;});
-    h += `<div class="row-item"><div><div class="name">👔 ${gdv}</div><div class="meta">${gs.length} CH</div></div><div style="text-align:right;"><b>${sS}/${gs.length}</b><br><span style="font-size:10px;color:var(--gray);">QLKV:${sQ} · GĐV:${sG}</span></div></div>`;
+  h += `<div class="card"><h3>📊 Theo GĐV (${task.name})</h3>`;
+  GDV_LIST.forEach(gdv=>{
+    const gs=STORES.filter(s=>s.gdv===gdv); let sS=0,sQ=0,sG=0;
+    gs.forEach(s=>{const st=taskStats(task.id,s.code);if(st.sub)sS++;if(st.qD)sQ++;if(st.gD)sG++;});
+    h += `<div class="row-item" onclick="openTaskByGDV('${task.id}','${gdv}')"><div><div class="name">👔 ${gdv}</div><div class="meta">${gs.length} CH</div></div><div style="text-align:right;"><b>${sS}/${gs.length}</b><br><span style="font-size:10px;color:var(--gray);">QLKV:${sQ} · GĐV:${sG}</span></div></div>`;
   });
   h += `</div>`;
-
-  // CH detail
-  h += `<div class="card"><h3>📋 Chi tiết CH</h3>`;
-  all.forEach(st => {
-    const s = chStats(st.code);
-    let pct = s.pct, bg = pct>=80?'var(--green)':pct>=50?'var(--orange)':'var(--red)';
-    let status = s.sub ? (s.gD?'✅':s.qD?'✅QLKV':'⏳') : '⏳';
-    h += `<div class="row-item" onclick="openStoreDetail('${st.code}')"><div><div class="name">${st.code} - ${st.name}</div><div class="meta">${st.gdv} · 📸${s.done}/${s.total}</div></div><div style="display:flex;align-items:center;gap:6px;min-width:120px;"><div class="progress-bar"><div class="fill" style="width:${pct}%;background:${bg};"></div></div><span style="font-size:12px;">${status}</span></div></div>`;
-  });
-  h += `</div>`;
-
+  
   document.getElementById('appContent').className = 'main';
   document.getElementById('appContent').innerHTML = h;
 }
 
-function chStats(code) {
-  const subs = S.submissions[code]||{}, m = subs._meta||{};
-  const done = KSTT_ITEMS.filter(i=>subs[i.id]&&subs[i.id].photo).length;
-  const fail = KSTT_ITEMS.filter(i=>subs[i.id]&&subs[i.id].qlkvVerdict==='fail').length;
-  return {done, fail, total:KSTT_ITEMS.length, sub:done>0, qD:!!m.qlkvReviewed, gD:!!m.gdvFinalized, pct:Math.round(done/KSTT_ITEMS.length*100)};
+// ========== TASK VIEW ==========
+function openTask(taskId) {
+  S.view='task'; S.taskId=taskId; S.tab='review';
+  renderTask();
+}
+function openTaskByGDV(taskId, gdv) {
+  S.role='GDV'; S.user={name:gdv,role:'GDV'};
+  document.getElementById('selRole').value='GDV';
+  document.getElementById('selUser').style.display='inline-block';
+  document.getElementById('selUser').value='GDV:'+gdv;
+  openTask(taskId);
 }
 
-// ========== STORE DETAIL (view-only from dashboard) ==========
-function openStoreDetail(code) {
-  const store = STORES.find(s=>s.code===code);
-  const subs = S.submissions[code]||{};
-  S.page = 'storeDetail'; S.viewStore = code;
-  
-  let h = `<div class="sub-header"><span class="back" onclick="goHome()">←</span><span class="title">${code} - ${store.name}</span></div>
-    <div style="font-size:12px;color:var(--gray);margin-bottom:12px;">GĐV: ${store.gdv} · QLKV: ${store.qlkv}</div>`;
-  
-  KSTT_ITEMS.forEach(item => {
-    const sub = subs[item.id];
-    const hasPhoto = !!(sub&&sub.photo);
-    const reviewed = sub&&sub.qlkvVerdict;
-    h += `<div class="card"><div style="font-weight:600;font-size:13px;margin-bottom:8px;">${item.name} ${reviewed?'<span class="verdict '+(sub.qlkvVerdict==='pass'?'verdict-pass':'verdict-fail')+'">'+(sub.qlkvVerdict==='pass'?'✅ Đạt':'❌ Ko đạt')+'</span>':hasPhoto?'<span style="color:var(--orange);">⏳ Chờ duyệt</span>':''}</div>`;
-    if (hasPhoto) {
-      h += `<div class="review-row">
-        <div class="review-col"><div class="label">📷 Ảnh mẫu</div><img src="${item.sample}" style="width:100%;height:160px;object-fit:contain;background:#fafafa;" loading="lazy"></div>
-        <div class="review-col"><div class="label">📸 Ảnh thực tế</div><img src="${sub.photo}" style="width:100%;height:160px;object-fit:contain;background:#fafafa;" loading="lazy"></div></div>`;
-      if(sub.deviation) h += `<div style="font-size:11px;color:var(--orange);margin-top:4px;">⚠️ ${sub.deviation}</div>`;
-      if(sub.qlkvNote) h += `<div style="font-size:11px;color:var(--blue);">📝 QLKV: ${sub.qlkvNote}</div>`;
-      if(sub.gdvNote) h += `<div style="font-size:11px;color:var(--blue);">📝 GĐV: ${sub.gdvNote}</div>`;
-    } else {
-      h += `<div style="text-align:center;padding:20px;color:var(--gray);">⏳ Chưa có ảnh</div>`;
-    }
-    h += `</div>`;
-  });
-  
-  if (S.user && (S.role==='QLKV'||S.role==='GDV'||S.role==='GDM')) {
-    h += `<div style="text-align:center;padding:12px;">
-      <button class="btn btn-primary" onclick="openModule('bcha');reviewStore('${code}');">✅ Vào Kiểm duyệt</button>
-    </div>`;
-  }
-  
-  document.getElementById('appContent').className = 'sub-page';
-  document.getElementById('appContent').innerHTML = h;
-}
-
-// ========== BCHA MODULE ==========
-function renderBCHA() {
-  if (S.viewStore) { reviewStore(S.viewStore); return; }
-  
+function renderTask() {
+  const task = TASKS.find(t=>t.id===S.taskId);
+  if(!task) return goHome();
   const c = document.getElementById('appContent');
-  c.className = 'sub-page';
+  c.className = 'main';
   
-  // Tabs
-  let tabs = `<div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;">`;
-  tabs += `<button class="btn btn-sm ${!S.bchaTab||S.bchaTab==='review'?'btn-primary':''}" onclick="S.bchaTab='review';renderBCHA();">✅ Kiểm duyệt</button>`;
-  tabs += `<button class="btn btn-sm ${S.bchaTab==='master'?'btn-primary':''}" onclick="S.bchaTab='master';renderBCHA();">📋 Đầu mục</button>`;
-  tabs += `</div>`;
+  S.tab = S.tab || 'review';
   
-  S.bchaTab = S.bchaTab || 'review';
+  let tabs = `<div class="tab-row">
+    <button class="tab-btn ${S.tab==='review'?'active':''}" onclick="S.tab='review';renderTask();">✅ Kiểm duyệt</button>
+    <button class="tab-btn ${S.tab==='master'?'active':''}" onclick="S.tab='master';renderTask();">📋 Đầu mục</button>
+    <button class="tab-btn ${S.tab==='dashboard'?'active':''}" onclick="S.tab='dashboard';renderTask();">📊 Dashboard</button></div>`;
   
   let body = '';
-  if (S.bchaTab === 'review') body = buildReviewList();
-  else if (S.bchaTab === 'master') body = buildMasterView();
+  if(S.tab==='review') body = buildReviewTab(task);
+  else if(S.tab==='master') body = buildMasterTab(task);
+  else if(S.tab==='dashboard') body = buildDashboardTab(task);
   
-  c.innerHTML = `<div class="sub-header"><span class="back" onclick="goHome()">←</span><span class="title">📸 KSTT: Báo cáo hình ảnh</span></div>${tabs}${body}`;
+  c.innerHTML = `<div class="back-bar"><span class="back" onclick="goHome()">←</span><span class="title">📋 ${task.name}</span></div>${tabs}${body}`;
 }
 
-function buildReviewList() {
-  const role = S.role;
-  const stores = role==='QLKV' ? STORES.filter(s=>s.qlkv===S.user.name)
-    : role==='GDV' ? STORES.filter(s=>s.gdv===S.user.name)
-    : role==='GDM' ? STORES : STORES;
+// ---- Review Tab ----
+function buildReviewTab(task) {
+  if(!S.user) return '<div class="card"><div style="text-align:center;padding:30px;color:var(--gray);">👆 Chọn vai trò & người dùng ở góc trên để kiểm duyệt</div></div>';
   
+  const role=S.role, stores=scopeStores();
   let pending=[], done=[];
-  stores.forEach(st => {
-    const subs = S.submissions[st.code]||{};
-    if (!KSTT_ITEMS.some(i=>subs[i.id]&&subs[i.id].photo)) return;
-    if (role==='QLKV') (subs._meta?.qlkvReviewed?done:pending).push(st);
+  stores.forEach(st=>{
+    const subs=getSub(task.id, st.code);
+    if(!task.items.some(i=>subs[i.id]&&subs[i.id].photo)) return;
+    if(role==='QLKV') (subs._meta?.qlkvReviewed?done:pending).push(st);
     else (subs._meta?.gdvFinalized?done:pending).push(st);
   });
   
-  const label = role==='QLKV'?'duyệt':'chốt';
-  let h = `<div class="card"><h3>⏳ Chờ ${label} (${pending.length})</h3>`;
-  if(!pending.length) h += '<div style="text-align:center;padding:20px;color:var(--gray);">✅ Không có CH chờ</div>';
-  else pending.forEach(st => {
-    const dc = KSTT_ITEMS.filter(i=>(S.submissions[st.code]||{})[i.id]&&(S.submissions[st.code]||{})[i.id].photo).length;
-    h += `<div class="row-item" onclick="reviewStore('${st.code}')"><div><div class="name">${st.code} - ${st.name}</div><div class="meta">📸 ${dc}/${KSTT_ITEMS.length}</div></div><span style="color:var(--orange);">⏳ Chờ</span></div>`;
+  const label=role==='QLKV'?'duyệt':'chốt';
+  let h=`<div class="card"><h3>⏳ Chờ ${label} (${pending.length})</h3>`;
+  if(!pending.length) h+='<div style="text-align:center;padding:20px;color:var(--gray);">✅ Không có CH chờ</div>';
+  else pending.forEach(st=>{
+    const dc=task.items.filter(i=>(getSub(task.id,st.code)[i.id]||{}).photo).length;
+    h+=`<div class="row-item" onclick="reviewStoreInTask('${task.id}','${st.code}')"><div><div class="name">${st.code} - ${st.name}</div><div class="meta">📸 ${dc}/${task.items.length}</div></div><span style="color:var(--orange);">⏳</span></div>`;
   });
-  h += `</div><div class="card"><h3>✅ Đã ${label} (${done.length})</h3>`;
-  if(!done.length) h += '<div style="text-align:center;padding:20px;color:var(--gray);">Chưa có</div>';
-  else done.forEach(st => h += `<div class="row-item" onclick="reviewStore('${st.code}')"><div><div class="name">${st.code} - ${st.name}</div><div class="meta">${st.gdv}</div></div><span class="verdict verdict-pass">✅</span></div>`);
-  h += `</div>`;
-  return h;
+  h+=`</div><div class="card"><h3>✅ Đã ${label} (${done.length})</h3>`;
+  if(!done.length) h+='<div style="text-align:center;padding:20px;color:var(--gray);">Chưa có</div>';
+  else done.forEach(st=>h+=`<div class="row-item" onclick="reviewStoreInTask('${task.id}','${st.code}')"><div><div class="name">${st.code} - ${st.name}</div><div class="meta">${st.gdv}</div></div><span class="verdict verdict-pass">✅</span></div>`);
+  return h+`</div>`;
 }
 
-function reviewStore(code) {
-  S.viewStore = code;
-  const store = STORES.find(s=>s.code===code), subs = S.submissions[code]||{}, role = S.role;
-  const isQLKV = role==='QLKV';
+function reviewStoreInTask(taskId, storeCode) {
+  const task = TASKS.find(t=>t.id===taskId);
+  if(!task) return;
+  const store = STORES.find(s=>s.code===storeCode);
+  const subs = getSub(taskId, storeCode);
+  const role = S.role, isQLKV = role==='QLKV';
   const c = document.getElementById('appContent');
-  c.className = 'sub-page';
   
-  let h = `<div class="sub-header"><span class="back" onclick="S.viewStore=null;renderBCHA()">←</span><span class="title">${code} - ${store.name}</span></div>
-    <div style="font-size:12px;color:var(--gray);margin-bottom:12px;">GĐV: ${store.gdv} · QLKV: ${store.qlkv}</div>`;
+  let h = `<div class="back-bar"><span class="back" onclick="renderTask()">←</span><span class="title">${storeCode} - ${store.name}</span></div>
+    <div style="font-size:11px;color:var(--gray);margin-bottom:10px;">GĐV: ${store.gdv} · QLKV: ${store.qlkv}</div>`;
   
-  KSTT_ITEMS.forEach(item => {
+  task.items.forEach(item => {
     const sub = subs[item.id]; if(!sub||!sub.photo) return;
     const done = isQLKV?!!sub.qlkvVerdict:!!sub.gdvVerdict;
-    h += `<div style="margin-bottom:10px;border:1px solid #eee;border-radius:8px;overflow:hidden;">
-      <div style="font-weight:600;font-size:12px;padding:8px 12px;background:#f8f9fa;${isQLKV?'':'display:flex;justify-content:space-between;'}">${item.name}${isQLKV?'':'<span style="font-size:10px;">'+(sub.qlkvVerdict?(sub.qlkvVerdict==='pass'?'✅ QLKV Đạt':'❌ QLKV Ko đạt'):'⏳')+'</span>'}</div>
-      <div class="review-row" style="padding:8px;">
+    h += `<div class="card">
+      <div style="font-weight:600;font-size:12px;margin-bottom:6px;${isQLKV?'':'display:flex;justify-content:space-between;'}">${item.name}${isQLKV?'':'<span style="font-size:10px;">'+(sub.qlkvVerdict?(sub.qlkvVerdict==='pass'?'✅ QLKV Đạt':'❌ QLKV Ko đạt'):'⏳')+'</span>'}</div>
+      <div class="review-row">
         <div class="review-col"><div class="label">📷 Mẫu</div><img src="${item.sample}" style="width:100%;height:140px;object-fit:contain;background:#fafafa;" loading="lazy"></div>
         <div class="review-col"><div class="label">📸 Thực tế</div><img src="${sub.photo}" style="width:100%;height:140px;object-fit:contain;background:#fafafa;" loading="lazy"></div></div>
-      ${sub.deviation?`<div style="padding:0 12px 4px;font-size:11px;color:var(--orange);">⚠️ ${sub.deviation}</div>`:''}
-      ${sub.qlkvNote?`<div style="padding:0 12px 4px;font-size:11px;color:var(--blue);">📝 QLKV: ${sub.qlkvNote}</div>`:''}
-      ${done ? `<div style="padding:0 12px 8px;"><span class="verdict ${(isQLKV?sub.qlkvVerdict:sub.gdvVerdict)==='pass'?'verdict-pass':'verdict-fail'}">${(isQLKV?sub.qlkvVerdict:sub.gdvVerdict)==='pass'?'✅ Đạt':'❌ Ko đạt'}</span> ${isQLKV?(sub.qlkvNote||''):(sub.gdvNote||'')}</div>`
-        : `<div class="review-actions" style="padding:0 12px 12px;">
-            <button class="btn btn-pass btn-sm" onclick="verdict('${code}','${item.id}','${isQLKV?'qlkv':'gdv'}','pass')">✅ Đạt</button>
-            <button class="btn btn-fail btn-sm" onclick="verdict('${code}','${item.id}','${isQLKV?'qlkv':'gdv'}','fail')">❌ Ko đạt</button>
-            <input id="vnt-${item.id}" placeholder="Ghi chú" style="flex:1;padding:6px;border:1px solid #ddd;border-radius:6px;font-size:12px;">
+      ${sub.deviation?`<div style="font-size:10px;color:var(--orange);margin-top:4px;">⚠️ ${sub.deviation}</div>`:''}
+      ${sub.qlkvNote?`<div style="font-size:10px;color:var(--blue);">📝 QLKV: ${sub.qlkvNote}</div>`:''}
+      ${done ? `<div style="margin-top:4px;"><span class="verdict ${(isQLKV?sub.qlkvVerdict:sub.gdvVerdict)==='pass'?'verdict-pass':'verdict-fail'}">${(isQLKV?sub.qlkvVerdict:sub.gdvVerdict)==='pass'?'✅ Đạt':'❌ Ko đạt'}</span> ${isQLKV?(sub.qlkvNote||''):(sub.gdvNote||'')}</div>`
+        : `<div class="review-actions">
+            <button class="btn btn-pass btn-sm" onclick="doVerdict('${taskId}','${storeCode}','${item.id}','${isQLKV?'qlkv':'gdv'}','pass')">✅ Đạt</button>
+            <button class="btn btn-fail btn-sm" onclick="doVerdict('${taskId}','${storeCode}','${item.id}','${isQLKV?'qlkv':'gdv'}','fail')">❌ Ko đạt</button>
+            <input id="vnt-${item.id}" placeholder="Ghi chú" style="flex:1;padding:5px;border:1px solid #ddd;border-radius:5px;font-size:11px;">
           </div>`}
     </div>`;
   });
-  h += `<div style="text-align:center;padding:8px;"><button class="btn btn-outline btn-sm" onclick="S.viewStore=null;renderBCHA()">← Quay lại</button></div>`;
+  h += `<div style="text-align:center;padding:8px;"><button class="btn btn-outline btn-sm" onclick="renderTask()">← Quay lại</button></div>`;
   c.innerHTML = h;
 }
 
-function verdict(code, itemId, level, v) {
-  const subs = S.submissions[code]||{}; if(!subs[itemId]) subs[itemId]={};
-  const el = document.getElementById('vnt-'+itemId), note = el?el.value.trim():'';
-  if(level==='qlkv') { subs[itemId].qlkvVerdict=v; subs[itemId].qlkvNote=note; subs[itemId].qlkvReviewedAt=new Date().toISOString();
-    if(KSTT_ITEMS.every(i=>!subs[i.id]||!subs[i.id].photo||!!subs[i.id].qlkvVerdict)&&subs._meta) subs._meta.qlkvReviewed=true; }
-  else { subs[itemId].gdvVerdict=v; subs[itemId].gdvNote=note; subs[itemId].gdvChotAt=new Date().toISOString();
-    if(KSTT_ITEMS.every(i=>!subs[i.id]||!subs[i.id].photo||!!subs[i.id].gdvVerdict)&&subs._meta) subs._meta.gdvFinalized=true; }
-  S.submissions[code]=subs; save();
-  reviewStore(code);
+function doVerdict(taskId, storeCode, itemId, level, v) {
+  const el=document.getElementById('vnt-'+itemId), note=el?el.value.trim():'';
+  setSub(taskId, storeCode, itemId, level==='qlkv'?{qlkvVerdict:v,qlkvNote:note,qlkvReviewedAt:new Date().toISOString()}:{gdvVerdict:v,gdvNote:note,gdvChotAt:new Date().toISOString()});
+  
+  const task=TASKS.find(t=>t.id===taskId), subs=getSub(taskId,storeCode);
+  if(level==='qlkv'&&task.items.every(i=>!subs[i.id]||!subs[i.id].photo||!!subs[i.id].qlkvVerdict))
+    { if(!subs._meta) subs._meta={}; subs._meta.qlkvReviewed=true; }
+  else if(level==='gdv'&&task.items.every(i=>!subs[i.id]||!subs[i.id].photo||!!subs[i.id].gdvVerdict))
+    { if(!subs._meta) subs._meta={}; subs._meta.gdvFinalized=true; }
+  if(!S.submissions[taskId]) S.submissions[taskId]={};
+  S.submissions[taskId][storeCode]=subs;
+  save();
+  reviewStoreInTask(taskId, storeCode);
 }
 
-function buildMasterView() {
-  const sections = [...new Set(KSTT_ITEMS.map(i=>i.section))];
-  let h = `<div class="info-bar"><div><div class="title">📋 Danh mục đầu mục KSTT</div><div class="sub">${KSTT_ITEMS.length} mục · ${sections.length} nhóm</div></div></div>`;
+// ---- Master Tab ----
+function buildMasterTab(task) {
+  const sections = [...new Set(task.items.map(i=>i.section))];
+  let h = '';
   sections.forEach(sec => {
     h += `<div class="card"><h3>📂 ${sec}</h3>`;
-    KSTT_ITEMS.filter(i=>i.section===sec).forEach(item => {
-      h += `<div style="margin-bottom:10px;border:1px solid #eee;border-radius:8px;overflow:hidden;">
-        <div style="font-weight:600;font-size:13px;padding:8px 12px;background:#f8f9fa;">${item.name}</div>
-        <div style="padding:8px 12px;"><img src="${item.sample}" style="width:100%;max-height:180px;object-fit:contain;background:#fafafa;border-radius:6px;" loading="lazy">
-        <div class="standard-text" style="margin-top:6px;">📋 ${item.standard}</div></div></div>`;
+    task.items.filter(i=>i.section===sec).forEach(item => {
+      h += `<div style="margin-bottom:8px;border:1px solid #eee;border-radius:8px;overflow:hidden;">
+        <div style="font-weight:600;font-size:12px;padding:8px 10px;background:#f8f9fa;">${item.name}</div>
+        <div style="padding:8px 10px;"><img src="${item.sample}" style="width:100%;max-height:160px;object-fit:contain;background:#fafafa;border-radius:4px;" loading="lazy">
+        <div class="standard-text" style="margin-top:4px;">📋 ${item.standard}</div></div></div>`;
     });
     h += `</div>`;
   });
   return h;
 }
 
-// ========== CHECKCAM ==========
-function renderCheckCam() {
+// ---- Dashboard Tab ----
+function buildDashboardTab(task) {
+  const all=STORES; let sub=0,q=0,g=0,f=0;
+  all.forEach(st=>{ const s=taskStats(task.id,st.code); if(s.sub)sub++; if(s.qD)q++; if(s.gD)g++; f+=s.fail; });
+  
+  let h=`<div class="kpi-row">
+    <div class="kpi-card"><div class="val">${all.length}</div><div class="lbl">Tổng CH</div></div>
+    <div class="kpi-card orange"><div class="val">${sub}</div><div class="lbl">Đã BC</div></div>
+    <div class="kpi-card green"><div class="val">${q}</div><div class="lbl">QLKV duyệt</div></div>
+    <div class="kpi-card green"><div class="val">${g}</div><div class="lbl">GĐV chốt</div></div>
+    <div class="kpi-card red"><div class="val">${f}</div><div class="lbl">Ko đạt</div></div></div>`;
+  
+  h += `<div class="card"><h3>📋 Chi tiết CH</h3>`;
+  all.forEach(st=>{
+    const s=taskStats(task.id,st.code);
+    let status=s.sub?(s.gD?'✅':s.qD?'✅QLKV':'⏳'):'⏳';
+    h+=`<div class="row-item"><div><div class="name">${st.code} - ${st.name}</div><div class="meta">${st.gdv} · 📸${s.done}/${s.total}</div></div><div style="display:flex;align-items:center;gap:4px;min-width:100px;"><div class="progress-bar"><div class="fill" style="width:${s.pct}%;background:${s.pct>=80?'var(--green)':s.pct>=50?'var(--orange)':'var(--red)'};"></div></div><span style="font-size:11px;">${status}</span></div></div>`;
+  });
+  return h+`</div>`;
+}
+
+// ========== CHECK CAM ==========
+function openCheckCam() {
   const c = document.getElementById('appContent');
-  c.className = 'sub-page';
-  c.innerHTML = `<div class="sub-header"><span class="back" onclick="goHome()">←</span><span class="title">📝 KSTT: Check Cam</span></div>
+  c.className = 'main';
+  c.innerHTML = `<div class="back-bar"><span class="back" onclick="goHome()">←</span><span class="title">📝 KSTT: Check Cam</span></div>
     <iframe class="iframe-wrap" src="https://ruralwcm.github.io/checkcam/"></iframe>`;
 }
 
-function toast(msg) { const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2500); }
+function toast(msg){ const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2500); }
 init();
 </script>
 </body>
