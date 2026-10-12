@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>KSTT · Kiểm Soát Thực Tế · WCM Rural</title>
+<style>
+:root {
+  --blue: #1a5276; --blue-light: #2980b9; --red: #e74c3c; --orange: #e67e22;
+  --green: #27ae60; --gray: #666; --light: #f5f6fa; --card: #fff;
+  --radius: 12px; --shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',Arial,sans-serif; background:var(--light); color:#1a1a1a; min-height:100vh; }
+.hidden { display:none !important; }
+
+/* ---- TOPBAR ---- */
+.topbar {
+  background: linear-gradient(135deg, var(--blue), var(--blue-light));
+  color:#fff; padding:10px 14px; display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:100; box-shadow:0 2px 8px rgba(0,0,0,0.15);
+}
+.topbar h1 { font-size:16px; font-weight:700; }
+.topbar .info { font-size:11px; opacity:0.85; cursor:pointer; }
+
+/* ---- MAIN TABS ---- */
+.nav-tabs {
+  display:flex; gap:4px; background:var(--card); padding:6px; margin:8px 10px 0;
+  border-radius:10px; box-shadow:var(--shadow); overflow-x:auto;
+}
+.nav-tab {
+  flex:1; min-width:fit-content; padding:10px 12px; border-radius:8px; text-align:center;
+  font-size:12px; font-weight:600; cursor:pointer; white-space:nowrap; transition:all .2s;
+  color:var(--gray); background:transparent;
+}
+.nav-tab.active { background:var(--blue); color:#fff; }
+
+/* ---- MAIN CONTENT ---- */
+.main { max-width:900px; margin:0 auto; padding:10px 12px 50px; }
+
+/* ---- LOGIN ---- */
+.login-wrap { max-width:400px; margin:40px auto; padding:14px; }
+.login-card {
+  background:var(--card); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow); text-align:center;
+}
+.login-card h2 { font-size:20px; color:var(--blue); margin-bottom:6px; }
+.login-card .sub { font-size:12px; color:var(--gray); margin-bottom:18px; }
+.login-card select, .login-card input {
+  width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; font-size:14px; margin-bottom:10px; font-family:inherit;
+}
+.login-card button {
+  width:100%; padding:14px; background:var(--blue-light); color:#fff; border:none;
+  border-radius:8px; font-size:15px; font-weight:600; cursor:pointer;
+}
+.role-tabs { display:flex; gap:6px; margin-bottom:14px; }
+.role-tab {
+  flex:1; padding:10px; border:2px solid #ddd; border-radius:8px; text-align:center;
+  font-size:13px; font-weight:600; cursor:pointer; background:#fff; transition:all .2s;
+}
+.role-tab.active { border-color:var(--blue-light); background:#ebf5fb; color:var(--blue); }
+
+/* ---- INFO BAR ---- */
+.info-bar {
+  background:var(--card); border-radius:var(--radius); padding:10px 14px; margin-bottom:10px;
+  box-shadow:var(--shadow); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;
+}
+.info-bar .title { font-weight:700; font-size:14px; }
+.info-bar .sub { font-size:11px; color:var(--gray); }
+
+/* ---- KSTT LIST ---- */
+.kstt-list { display:flex; flex-direction:column; gap:8px; }
+.kstt-item {
+  background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+  overflow:hidden; border-left:4px solid #ddd; transition:all .2s;
+}
+.kstt-item.done { border-left-color:var(--green); }
+.kstt-item.fail { border-left-color:var(--red); }
+.kstt-header {
+  padding:12px 14px; display:flex; justify-content:space-between; align-items:center;
+  cursor:pointer; border-bottom:1px solid #f0f0f0;
+}
+.kstt-header .name { font-size:14px; font-weight:600; }
+.kstt-header .badge { font-size:11px; }
+.badge-todo { color:var(--gray); }
+.badge-done { color:var(--green); font-weight:600; }
+.badge-fail { color:var(--red); font-weight:600; }
+.kstt-body {
+  padding:12px 14px; display:flex; flex-direction:column; gap:10px;
+}
+
+.sample-img, .photo-preview {
+  width:100%; max-height:280px; object-fit:contain; border-radius:8px;
+  border:1px solid #eee; background:#fafafa;
+}
+.standard-text { font-size:12px; color:#333; background:#f8f9fa; padding:10px; border-radius:6px; line-height:1.5; }
+.standard-text b { color:var(--blue); }
+
+.capture-box {
+  border:2px dashed #ccc; border-radius:8px; padding:20px; text-align:center; cursor:pointer;
+  transition:all .2s; background:#fafafa; min-height:80px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+}
+.capture-box:hover { border-color:var(--blue-light); background:#f0f7ff; }
+.capture-box .icon { font-size:32px; margin-bottom:4px; }
+.capture-box .text { font-size:12px; color:var(--gray); }
+.capture-box.has-photo { border-color:var(--green); border-style:solid; padding:4px; }
+.capture-box.has-photo .icon, .capture-box.has-photo .text { display:none; }
+.capture-box.has-photo img { max-width:100%; max-height:250px; border-radius:6px; }
+
+.deviation-input {
+  width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;
+  font-size:13px; font-family:inherit; resize:vertical; min-height:44px;
+}
+.deviation-input::placeholder { color:#bbb; }
+
+/* ---- BUTTONS ---- */
+.btn {
+  padding:10px 20px; border:none; border-radius:8px; font-size:13px; font-weight:600;
+  cursor:pointer; transition:all .2s; display:inline-flex; align-items:center; gap:4px;
+}
+.btn-primary { background:var(--blue-light); color:#fff; }
+.btn-primary:hover { background:var(--blue); }
+.btn-pass { background:var(--green); color:#fff; }
+.btn-pass:hover { background:#219a52; }
+.btn-fail { background:var(--red); color:#fff; }
+.btn-fail:hover { background:#c0392b; }
+.btn-outline { background:#fff; color:var(--blue); border:2px solid var(--blue-light); }
+.btn-sm { padding:6px 14px; font-size:12px; }
+.btn-block { width:100%; justify-content:center; padding:14px; font-size:15px; }
+.btn:disabled { background:#ccc; cursor:not-allowed; }
+
+/* ---- REVIEW ---- */
+.review-row { display:flex; gap:8px; flex-wrap:wrap; }
+.review-col { flex:1; min-width:46%; border-radius:8px; border:1px solid #eee; }
+.review-col .label { font-size:10px; color:var(--gray); padding:4px 8px; background:#f8f9fa; border-radius:8px 8px 0 0; }
+.review-col img { width:100%; max-height:220px; object-fit:contain; background:#fafafa; border-radius:0 0 8px 8px; }
+.review-actions { display:flex; gap:6px; align-items:center; margin-top:8px; flex-wrap:wrap; }
+
+.verdict { display:inline-block; padding:4px 10px; border-radius:6px; font-size:12px; font-weight:700; }
+.verdict-pass { background:#eafaf1; color:var(--green); }
+.verdict-fail { background:#fdedec; color:var(--red); }
+
+/* ---- DASHBOARD ---- */
+.dash-kpi-row { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
+.dash-kpi {
+  flex:1; min-width:100px; background:var(--card); border-radius:var(--radius); padding:14px;
+  text-align:center; box-shadow:var(--shadow); border-top:3px solid var(--blue);
+}
+.dash-kpi.red { border-top-color:var(--red); }
+.dash-kpi.orange { border-top-color:var(--orange); }
+.dash-kpi.green { border-top-color:var(--green); }
+.dash-kpi-val { font-size:24px; font-weight:800; }
+.dash-kpi-label { font-size:10px; color:var(--gray); margin-top:2px; }
+
+.dash-card {
+  background:var(--card); border-radius:var(--radius); padding:14px; margin-bottom:10px;
+  box-shadow:var(--shadow);
+}
+.dash-card h3 { font-size:14px; color:var(--blue); margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:6px; }
+
+.dash-row {
+  display:flex; justify-content:space-between; align-items:center; padding:8px 0;
+  border-bottom:1px solid #f5f5f5; cursor:pointer;
+}
+.dash-row:hover { background:#f8f9fa; margin:0 -14px; padding:8px 14px; }
+.dash-row .dr-name { font-size:13px; font-weight:600; }
+.dash-row .dr-meta { font-size:11px; color:var(--gray); }
+.dash-row .dr-status { font-size:12px; }
+
+.progress-bar-wrap { flex:1; height:8px; background:#eee; border-radius:4px; margin:0 10px; overflow:hidden; }
+.progress-bar { height:100%; border-radius:4px; transition:width .3s; }
+
+/* ---- TOAST ---- */
+.toast {
+  position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+  background:#333; color:#fff; padding:12px 24px; border-radius:20px; font-size:13px;
+  z-index:999; opacity:0; transition:opacity .3s;
+}
+.toast.show { opacity:1; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <h1>📸 KSTT · Kiểm Soát Thực Tế</h1>
+  <span class="info hidden" id="userInfo" onclick="doLogout()"></span>
+</div>
+
+<!-- LOGIN -->
+<div id="loginScreen" class="login-wrap">
+  <div class="login-card">
+    <h2>📸 KSTT · Kiểm Soát Thực Tế</h2>
+    <div class="sub">Báo cáo hình ảnh & duyệt tuân thủ · WCM Rural</div>
+    
+    <div class="role-tabs" id="roleTabs">
+      <div class="role-tab active" data-role="CH" onclick="selectRole('CH')">🏪 CH</div>
+      <div class="role-tab" data-role="QLKV" onclick="selectRole('QLKV')">👤 QLKV</div>
+      <div class="role-tab" data-role="GDV" onclick="selectRole('GDV')">👔 GĐV</div>
+      <div class="role-tab" data-role="GDM" onclick="selectRole('GDM')">🏢 GĐM</div>
+    </div>
+
+    <div id="loginFormCH">
+      <select id="selCH"><option value="">-- Chọn Cửa Hàng --</option></select>
+    </div>
+    <div id="loginFormQLKV" class="hidden">
+      <select id="selQLKV"><option value="">-- Chọn QLKV --</option></select>
+    </div>
+    <div id="loginFormGDV" class="hidden">
+      <select id="selGDV"><option value="">-- Chọn GĐV --</option></select>
+    </div>
+    <div id="loginFormGDM" class="hidden">
+      <select id="selGDM"><option value="">-- Chọn GĐM --</option></select>
+    </div>
+
+    <button onclick="doLogin()">👉 Vào Hệ Thống</button>
+    <div style="font-size:10px;color:#aaa;margin-top:8px;">v1.0-beta · Demo</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="appScreen" class="main hidden">
+  <div class="nav-tabs hidden" id="navTabs">
+    <div class="nav-tab active" data-page="bcha" onclick="switchPage('bcha')">📸 Báo cáo HA</div>
+    <div class="nav-tab" data-page="dashboard" onclick="switchPage('dashboard')">📊 Dashboard</div>
+  </div>
+  <div id="pageContent"></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ========== STATE ==========
+const APP = {
+  role: 'CH', user: null, page: 'bcha',
+  storelist: SAMPLE_STORES,
+  ksttItems: KSTT_ITEMS,
+  submissions: {}
+};
+
+// ========== DATA ==========
+const KSTT_ITEMS = [
+  { id:'k1', name:'1. Mặt tiền & Biển hiệu', standard:'Biển hiệu WCM sáng rõ, không che khuất, đúng màu thương hiệu. Mặt tiền sạch sẽ, không dán QC trái phép.', sample:'https://placehold.co/600x400/2980b9/white?text=Mau+Mat+Tien' },
+  { id:'k2', name:'2. Kệ Rau - Trưng bày', standard:'Rau xếp gọn gàng theo nhóm, có bảng giá rõ ràng. Không có rau héo/dập. Kệ sạch, không đọng nước.', sample:'https://placehold.co/600x400/27ae60/white?text=Mau+Ke+Rau' },
+  { id:'k3', name:'3. Kệ Thịt - Tươi sống', standard:'Thịt bảo quản đúng nhiệt độ. Trưng bày theo loại, có giá niêm yết. Khu vực sạch, không mùi.', sample:'https://placehold.co/600x400/e74c3c/white?text=Mau+Ke+Thit' },
+  { id:'k4', name:'4. Kệ Gạo - Hàng khô', standard:'Gạo xếp theo thương hiệu, có bảng giá. Không bụi, không ẩm mốc. Kệ đầy đủ, không trống hàng.', sample:'https://placehold.co/600x400/f39c12/white?text=Mau+Ke+Gao' },
+  { id:'k5', name:'5. Showcase - Trưng bày KM', standard:'Hàng KM trưng bày nổi bật, có poster/promo rõ ràng. Sản phẩm còn date, sạch đẹp.', sample:'https://placehold.co/600x400/8e44ad/white?text=Mau+Showcase+KM' },
+  { id:'k6', name:'6. Quầy thu ngân', standard:'Quầy sạch sẽ, gọn gàng. Có bảng giá niêm yết các dịch vụ. Máy POS hoạt động.', sample:'https://placehold.co/600x400/2c3e50/white?text=Mau+Quay+Thu+Ngan' },
+  { id:'k7', name:'7. Kho hàng', standard:'Hàng xếp gọn, FIFO. Không ẩm mốc, có lối đi. Hàng gần date được đánh dấu.', sample:'https://placehold.co/600x400/7f8c8d/white?text=Mau+Kho+Hang' },
+  { id:'k8', name:'8. Vệ sinh CH', standard:'Sàn sạch, không rác. Khu vực vệ sinh sạch sẽ. Thùng rác có nắp đậy.', sample:'https://placehold.co/600x400/16a085/white?text=Mau+Ve+Sinh' },
+];
+
+const SAMPLE_STORES = [
+  { code:'2797', name:'WM+ HNI TTTM Chợ Sải', gdv:'Phạm Minh Thu', qlkv:'Trần Thu Trang', province:'TP. Hà Nội', gdm:'Trần Đăng Hảo' },
+  { code:'2924', name:'WM+ HNI 391 Ngô Xuân Quảng', gdv:'Phạm Minh Thu', qlkv:'Trần Thu Trang', province:'TP. Hà Nội', gdm:'Trần Đăng Hảo' },
+  { code:'3001', name:'WM+ HNI CT Pháp Vân', gdv:'Tạ Công Nhận', qlkv:'Nguyễn Văn An', province:'TP. Hà Nội', gdm:'Trần Đăng Hảo' },
+  { code:'3150', name:'WM+ HNI Times City', gdv:'Tạ Quốc Huy', qlkv:'Lê Thị Mai', province:'TP. Hà Nội', gdm:'Trần Đăng Hảo' },
+  { code:'3205', name:'WM+ HBN Lương Sơn', gdv:'Dương Tùng', qlkv:'Bùi Thị Tuyền', province:'Hòa Bình', gdm:'Trần Đăng Hảo' },
+  { code:'3300', name:'WM+ SLA Chiềng An', gdv:'Dương Tùng', qlkv:'Trang', province:'Sơn La', gdm:'Trần Đăng Hảo' },
+  { code:'3400', name:'WM+ DBN Tủa Chùa', gdv:'Dương Tùng', qlkv:'Vânnm', province:'Điện Biên', gdm:'Trần Đăng Hảo' },
+  { code:'3500', name:'WM+ TQ Yên Sơn', gdv:'Nguyễn Mạnh Sơn', qlkv:'Nguyễn Văn Hiệp', province:'Tuyên Quang', gdm:'Trần Đăng Hảo' },
+  { code:'3600', name:'WM+ PT Thanh Thủy', gdv:'Hồ Nam', qlkv:'Bùi Thị Tuyền', province:'Phú Thọ', gdm:'Trần Đăng Hảo' },
+];
+
+const QLKV_LIST = [...new Set(SAMPLE_STORES.map(s=>s.qlkv))].sort();
+const GDV_LIST = [...new Set(SAMPLE_STORES.map(s=>s.gdv))].sort();
+const GDM_LIST = [...new Set(SAMPLE_STORES.map(s=>s.gdm))].sort();
+
+// ========== INIT ==========
+function init() {
+  const saved = localStorage.getItem('kstt_state');
+  if (saved) { try { APP.submissions = JSON.parse(saved).submissions || {}; } catch(e){} }
+  
+  SAMPLE_STORES.forEach(s => {
+    document.getElementById('selCH').innerHTML += `<option value="${s.code}">${s.code} - ${s.name}</option>`;
+  });
+  QLKV_LIST.forEach(q => {
+    document.getElementById('selQLKV').innerHTML += `<option value="${q}">${q}</option>`;
+  });
+  GDV_LIST.forEach(g => {
+    document.getElementById('selGDV').innerHTML += `<option value="${g}">${g}</option>`;
+  });
+  GDM_LIST.forEach(m => {
+    document.getElementById('selGDM').innerHTML += `<option value="${m}">${m}</option>`;
+  });
+}
+function saveState() {
+  localStorage.setItem('kstt_state', JSON.stringify({ submissions: APP.submissions }));
+}
+
+// ========== AUTH ==========
+function selectRole(role) {
+  APP.role = role;
+  document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.role-tab[data-role="${role}"]`).classList.add('active');
+  ['CH','QLKV','GDV','GDM'].forEach(r => {
+    document.getElementById('loginForm'+r).classList.toggle('hidden', r !== role);
+  });
+}
+
+function doLogin() {
+  const role = APP.role;
+  let user = null;
+  
+  if (role === 'CH') {
+    const code = document.getElementById('selCH').value;
+    if (!code) return toast('⚠️ Vui lòng chọn Cửa Hàng');
+    const s = SAMPLE_STORES.find(s=>s.code===code);
+    if (!s) return toast('Không tìm thấy CH');
+    user = {...s, role:'CH'};
+  } else if (role === 'QLKV') {
+    const name = document.getElementById('selQLKV').value;
+    if (!name) return toast('⚠️ Vui lòng chọn QLKV');
+    user = { name, role:'QLKV' };
+  } else if (role === 'GDV') {
+    const name = document.getElementById('selGDV').value;
+    if (!name) return toast('⚠️ Vui lòng chọn GĐV');
+    user = { name, role:'GDV' };
+  } else if (role === 'GDM') {
+    const name = document.getElementById('selGDM').value;
+    if (!name) return toast('⚠️ Vui lòng chọn GĐM');
+    user = { name, role:'GDM' };
+  }
+  if (!user) return;
+  
+  APP.user = user;
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('appScreen').classList.remove('hidden');
+  document.getElementById('userInfo').classList.remove('hidden');
+  document.getElementById('userInfo').textContent = role + ': ' + (user.name||user.code);
+  
+  // Nav tabs: show for QLKV/GDV/GDM only
+  document.getElementById('navTabs').classList.toggle('hidden', role === 'CH');
+  
+  renderPage('bcha');
+}
+
+function doLogout() {
+  document.getElementById('loginScreen').classList.remove('hidden');
+  document.getElementById('appScreen').classList.add('hidden');
+  document.getElementById('userInfo').classList.add('hidden');
+  APP.user = null;
+}
+
+function switchPage(page) {
+  APP.page = page;
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.nav-tab[data-page="${page}"]`).classList.add('active');
+  renderPage(page);
+}
+
+function renderPage(page) {
+  const role = APP.user.role;
+  const container = document.getElementById('pageContent');
+  
+  if (page === 'bcha') {
+    if (role === 'CH') renderCHView(container);
+    else if (role === 'QLKV') renderQLKVView(container);
+    else if (role === 'GDV') renderGDVView(container);
+    else if (role === 'GDM') renderGDMView(container);
+  } else if (page === 'dashboard') {
+    renderDashboard(container);
+  }
+}
+
+// ========== CH VIEW ==========
+function renderCHView(container) {
+  const store = APP.user;
+  const subs = APP.submissions[store.code] || {};
+  const done = KSTT_ITEMS.filter(item => subs[item.id] && subs[item.id].photo).length;
+  
+  container.innerHTML = `
+    <div class="info-bar">
+      <div>
+        <div class="title">${store.code} - ${store.name}</div>
+        <div class="sub">GĐV: ${store.gdv} · QLKV: ${store.qlkv} · ${store.province}</div>
+      </div>
+      <div style="font-size:13px;font-weight:600;color:var(--blue);">📸 ${done}/${KSTT_ITEMS.length}</div>
+    </div>
+    <div class="kstt-list" id="ksttListCH"></div>
+    <div style="text-align:center;padding:16px 0;">
+      <button class="btn btn-primary btn-block" onclick="submitAllCH()" id="btnSubmit">
+        📤 Gửi Báo Cáo Cho QLKV (${done}/${KSTT_ITEMS.length})
+      </button>
+    </div>
+  `;
+  
+  const list = document.getElementById('ksttListCH');
+  KSTT_ITEMS.forEach(item => {
+    const sub = subs[item.id];
+    const hasPhoto = !!(sub && sub.photo);
+    const reviewed = sub && sub.qlkvVerdict;
+    let cls = '';
+    if (reviewed) cls = sub.qlkvVerdict === 'pass' ? 'done' : 'fail';
+    else if (hasPhoto) cls = 'done';
+    
+    list.innerHTML += `
+      <div class="kstt-item ${cls}">
+        <div class="kstt-header" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'flex':'none'">
+          <span class="name">${item.name}</span>
+          <span class="badge ${reviewed ? (sub.qlkvVerdict==='pass'?'badge-done':'badge-fail') : (hasPhoto?'badge-done':'badge-todo')}">
+            ${reviewed ? (sub.qlkvVerdict==='pass'?'✅ QLKV Đạt':'❌ QLKV Ko đạt') : (hasPhoto?'✅ Đã chụp':'⏳ Chưa chụp')}
+          </span>
+        </div>
+        <div class="kstt-body" style="display:none">
+          <div style="font-size:11px;color:var(--gray);">📷 Ảnh mẫu:</div>
+          <img class="sample-img" src="${item.sample}" alt="Mẫu" loading="lazy">
+          <div class="standard-text">📋 <b>Tiêu chuẩn:</b> ${item.standard}</div>
+          <div style="font-size:11px;color:var(--gray);">📸 Ảnh thực tế:</div>
+          <div class="capture-box ${hasPhoto?'has-photo':''}" id="capture-${item.id}" onclick="capturePhoto('${item.id}')">
+            ${hasPhoto ? `<img src="${sub.photo}" alt="Thực tế">` : '<div class="icon">📸</div><div class="text">Chạm để chụp ảnh</div>'}
+          </div>
+          <textarea class="deviation-input" id="dev-${item.id}" placeholder="Ghi chú sai lệch với mẫu...">${sub?sub.deviation||'':''}</textarea>
+          ${reviewed ? `
+            <div style="display:flex;gap:6px;align-items:center;">
+              <span class="verdict ${sub.qlkvVerdict==='pass'?'verdict-pass':'verdict-fail'}">${sub.qlkvVerdict==='pass'?'✅ Đạt':'❌ Không đạt'}</span>
+              ${sub.qlkvNote?`<span style="font-size:11px;color:var(--gray);">${sub.qlkvNote}</span>`:''}
+            </div>` : ''}
+        </div>
+      </div>`;
+  });
+}
+
+function capturePhoto(itemId) {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = 'image/*'; input.capture = 'environment';
+  input.onchange = (e) => {
+    const file = e.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let w=img.width, h=img.height;
+        const maxW=1024, maxH=768;
+        if(w>maxW){h=h*maxW/w;w=maxW;} if(h>maxH){w=w*maxH/h;h=maxH;}
+        canvas.width=w; canvas.height=h;
+        canvas.getContext('2d').drawImage(img,0,0,w,h);
+        const dataUrl = canvas.toDataURL('image/jpeg',0.7);
+        
+        const storeCode = APP.user.code;
+        if(!APP.submissions[storeCode]) APP.submissions[storeCode]={};
+        if(!APP.submissions[storeCode][itemId]) APP.submissions[storeCode][itemId]={};
+        APP.submissions[storeCode][itemId].photo = dataUrl;
+        APP.submissions[storeCode][itemId].submittedAt = new Date().toISOString();
+        
+        if(!APP.submissions[storeCode]._meta) APP.submissions[storeCode]._meta={qlkvReviewed:false,gdvFinalized:false};
+        APP.submissions[storeCode]._meta.submittedAt = new Date().toISOString();
+        APP.submissions[storeCode]._meta.storeCode = storeCode;
+        APP.submissions[storeCode]._meta.storeName = APP.user.name;
+        APP.submissions[storeCode]._meta.gdv = APP.user.gdv;
+        APP.submissions[storeCode]._meta.qlkv = APP.user.qlkv;
+        saveState();
+        renderPage('bcha');
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
+function submitAllCH() {
+  const storeCode = APP.user.code;
+  const subs = APP.submissions[storeCode] || {};
+  
+  KSTT_ITEMS.forEach(item => {
+    const devEl = document.getElementById('dev-'+item.id);
+    if (devEl && subs[item.id]) subs[item.id].deviation = devEl.value.trim();
+  });
+  
+  const done = KSTT_ITEMS.filter(item => subs[item.id] && subs[item.id].photo).length;
+  if (done === 0) return toast('⚠️ Vui lòng chụp ít nhất 1 ảnh');
+  
+  subs._meta = subs._meta || {};
+  subs._meta.submittedAt = new Date().toISOString();
+  subs._meta.qlkvReviewed = false;
+  subs._meta.gdvFinalized = false;
+  saveState();
+  
+  toast(`✅ Đã gửi ${done}/${KSTT_ITEMS.length} đầu mục cho QLKV`);
+  renderPage('bcha');
+}
+
+// ========== QLKV VIEW ==========
+function renderQLKVView(container) {
+  const qlkv = APP.user.name;
+  const myStores = SAMPLE_STORES.filter(s => s.qlkv === qlkv);
+  
+  let html = `
+    <div class="info-bar">
+      <div><div class="title">👤 QLKV: ${qlkv}</div><div class="sub">${myStores.length} CH phụ trách</div></div>
+      <span style="font-size:13px;cursor:pointer;" onclick="switchPage('dashboard')">📊 Dashboard →</span>
+    </div>`;
+  
+  let pendingStores = [], doneStores = [];
+  myStores.forEach(store => {
+    const subs = APP.submissions[store.code] || {};
+    const meta = subs._meta || {};
+    const hasSubmitted = KSTT_ITEMS.some(item => subs[item.id] && subs[item.id].photo);
+    if (!hasSubmitted) return;
+    (meta.qlkvReviewed ? doneStores : pendingStores).push(store);
+  });
+  
+  html += `<div style="font-weight:600;font-size:13px;color:var(--blue);margin-bottom:8px;">⏳ Chờ duyệt (${pendingStores.length})</div>`;
+  if (pendingStores.length === 0) html += '<div style="text-align:center;padding:20px;color:var(--gray);">✅ Không có CH nào chờ duyệt</div>';
+  else pendingStores.forEach(store => {
+    const subs = APP.submissions[store.code] || {};
+    const done = KSTT_ITEMS.filter(item => subs[item.id] && subs[item.id].photo).length;
+    html += `<div class="dash-row" onclick="qlkvReviewCH('${store.code}')">
+      <div><div class="dr-name">${store.code} - ${store.name}</div><div class="dr-meta">📸 ${done}/${KSTT_ITEMS.length} ảnh</div></div>
+      <span style="color:var(--orange);font-size:12px;">⏳ Chờ duyệt</span>
+    </div>`;
+  });
+  
+  html += `<div style="font-weight:600;font-size:13px;color:var(--blue);margin:14px 0 8px;">✅ Đã duyệt (${doneStores.length})</div>`;
+  if (doneStores.length === 0) html += '<div style="text-align:center;padding:20px;color:var(--gray);">Chưa có CH nào được duyệt</div>';
+  else doneStores.forEach(store => {
+    const subs = APP.submissions[store.code] || {};
+    html += `<div class="dash-row" onclick="qlkvReviewCH('${store.code}')">
+      <div><div class="dr-name">${store.code} - ${store.name}</div>
+      <div class="dr-meta">GĐV: ${store.gdv}</div></div>
+      <span class="verdict verdict-pass">✅ Đã duyệt</span>
+    </div>`;
+  });
+  
+  container.innerHTML = html;
+}
+
+function qlkvReviewCH(storeCode) {
+  const store = SAMPLE_STORES.find(s => s.code === storeCode);
+  const subs = APP.submissions[storeCode] || {};
+  const container = document.getElementById('pageContent');
+  
+  let html = `<div style="background:var(--card);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div><b style="font-size:15px;">${storeCode} - ${store.name}</b><br><span style="font-size:11px;color:var(--gray);">GĐV: ${store.gdv}</span></div>
+      <button class="btn btn-outline btn-sm" onclick="renderPage('bcha')">← Quay lại</button>
+    </div>`;
+  
+  KSTT_ITEMS.forEach(item => {
+    const sub = subs[item.id];
+    if (!sub || !sub.photo) return;
+    
+    const reviewed = !!sub.qlkvVerdict;
+    html += `
+      <div style="margin-bottom:14px;border:1px solid #eee;border-radius:8px;overflow:hidden;">
+        <div style="font-weight:600;font-size:12px;padding:8px 12px;background:#f8f9fa;">${item.name}</div>
+        <div class="review-row" style="padding:8px;">
+          <div class="review-col"><div class="label">📷 Ảnh mẫu</div><img src="${item.sample}" style="width:100%;height:160px;object-fit:contain;background:#fafafa;" loading="lazy"></div>
+          <div class="review-col"><div class="label">📸 Ảnh thực tế</div><img src="${sub.photo}" style="width:100%;height:160px;object-fit:contain;background:#fafafa;" loading="lazy"></div>
+        </div>
+        ${sub.deviation?`<div style="padding:0 12px 4px;font-size:11px;color:var(--orange);">⚠️ CH ghi chú: ${sub.deviation}</div>`:''}
+        ${reviewed ? `<div style="padding:0 12px 8px;"><span class="verdict ${sub.qlkvVerdict==='pass'?'verdict-pass':'verdict-fail'}">${sub.qlkvVerdict==='pass'?'✅ Đạt':'❌ Ko đạt'}</span> ${sub.qlkvNote||''}</div>`
+          : `<div class="review-actions" style="padding:0 12px 12px;">
+              <button class="btn btn-pass btn-sm" onclick="qlkvVerdict('${storeCode}','${item.id}','pass')">✅ Đạt</button>
+              <button class="btn btn-fail btn-sm" onclick="qlkvVerdict('${storeCode}','${item.id}','fail')">❌ Ko đạt</button>
+              <input id="qlkvNote-${item.id}" placeholder="Ghi chú" style="flex:1;padding:6px;border:1px solid #ddd;border-radius:6px;font-size:12px;">
+            </div>`
+        }
+      </div>`;
+  });
+  
+  html += `</div>`;
+  container.innerHTML = html;
+}
+
+function qlkvVerdict(storeCode, itemId, verdict) {
+  const subs = APP.submissions[storeCode] || {};
+  if (!subs[itemId]) subs[itemId] = {};
+  const noteEl = document.getElementById('qlkvNote-'+itemId);
+  subs[itemId].qlkvVerdict = verdict;
+  subs[itemId].qlkvNote = noteEl ? noteEl.value.trim() : '';
+  subs[itemId].qlkvReviewedAt = new Date().toISOString();
+  
+  const allDone = KSTT_ITEMS.every(item => {
+    const s = subs[item.id];
+    return !s || !s.photo || !!s.qlkvVerdict;
+  });
+  if (allDone && subs._meta) subs._meta.qlkvReviewed = true;
+  
+  APP.submissions[storeCode] = subs;
+  saveState();
+  qlkvReviewCH(storeCode);
+  toast(verdict==='pass'?'✅ Đã đánh giá Đạt':'❌ Đã đánh giá Ko đạt');
+}
+
+// ========== GDV VIEW ==========
+function renderGDVView(container) {
+  const gdv = APP.user.name;
+  const myStores = SAMPLE_STORES.filter(s => s.gdv === gdv);
+  
+  let html = `
+    <div class="info-bar">
+      <div><div class="title">👔 GĐV: ${gdv}</div><div class="sub">${myStores.length} CH phụ trách</div></div>
+      <span style="font-size:13px;cursor:pointer;" onclick="switchPage('dashboard')">📊 Dashboard →</span>
+    </div>`;
+  
+  let pendingStores = [], doneStores = [];
+  myStores.forEach(store => {
+    const subs = APP.submissions[store.code] || {};
+    const meta = subs._meta || {};
+    const hasSubmitted = KSTT_ITEMS.some(item => subs[item.id] && subs[item.id].photo);
+    if (!hasSubmitted) return;
+    (meta.gdvFinalized ? doneStores : pendingStores).push(store);
+  });
+  
+  html += `<div style="font-weight:600;font-size:13px;color:var(--blue);margin-bottom:8px;">⏳ Chờ chốt (${pendingStores.length})</div>`;
+  if (pendingStores.length === 0) html += '<div style="text-align:center;padding:20px;color:var(--gray);">✅ Không có CH nào chờ chốt</div>';
+  else pendingStores.forEach(store => {
+    const subs = APP.submissions[store.code] || {};
+    const meta = (subs._meta||{});
+    html += `<div class="dash-row" onclick="gdvReviewCH('${store.code}')">
+      <div><div class="dr-name">${store.code} - ${store.name}</div>
+      <div class="dr-meta">QLKV: ${store.qlkv} · ${meta.qlkvReviewed?'✅ Đã duyệt':'⏳ Chưa duyệt'}</div></div>
+      <span style="color:var(--orange);font-size:12px;">⏳ Chờ chốt</span>
+    </div>`;
+  });
+  
+  html += `<div style="font-weight:600;font-size:13px;color:var(--blue);margin:14px 0 8px;">✅ Đã chốt (${doneStores.length})</div>`;
+  if (doneStores.length === 0) html += '<div style="text-align:center;padding:20px;color:var(--gray);">Chưa có CH nào được chốt</div>';
+  else doneStores.forEach(store => {
+    html += `<div class="dash-row" onclick="gdvReviewCH('${store.code}')">
+      <div><div class="dr-name">${store.code} - ${store.name}</div><div class="dr-meta">QLKV: ${store.qlkv}</div></div>
+      <span class="verdict verdict-pass">✅ Đã chốt</span>
+    </div>`;
+  });
+  
+  container.innerHTML = html;
+}
+
+function gdvReviewCH(storeCode) {
+  const store = SAMPLE_STORES.find(s => s.code === storeCode);
+  const subs = APP.submissions[storeCode] || {};
+  const container = document.getElementById('pageContent');
+  
+  let html = `<div style="background:var(--card);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div><b style="font-size:15px;">${storeCode} - ${store.name}</b><br><span style="font-size:11px;color:var(--gray);">QLKV: ${store.qlkv} · ${subs._meta?.qlkvReviewed?'✅ Đã duyệt':'⏳ Chưa duyệt'}</span></div>
+      <button class="btn btn-outline btn-sm" onclick="renderPage('bcha')">← Quay lại</button>
+    </div>`;
+  
+  KSTT_ITEMS.forEach(item => {
+    const sub = subs[item.id];
+    if (!sub || !sub.photo) return;
+    const done = !!sub.gdvVerdict;
+    
+    html += `
+      <div style="margin-bottom:14px;border:1px solid #eee;border-radius:8px;overflow:hidden;">
+        <div style="font-weight:600;font-size:12px;padding:8px 12px;background:#f8f9fa;display:flex;justify-content:space-between;">
+          <span>${item.name}</span>
+          <span style="font-size:10px;">${sub.qlkvVerdict?(sub.qlkvVerdict==='pass'?'✅ QLKV Đạt':'❌ QLKV Ko đạt'):'⏳ QLKV chưa duyệt'}</span>
+        </div>
+        <div class="review-row" style="padding:8px;">
+          <div class="review-col"><div class="label">📷 Mẫu</div><img src="${item.sample}" style="width:100%;height:140px;object-fit:contain;background:#fafafa;" loading="lazy"></div>
+          <div class="review-col"><div class="label">📸 Thực tế</div><img src="${sub.photo}" style="width:100%;height:140px;object-fit:contain;background:#fafafa;" loading="lazy"></div>
+        </div>
+        ${sub.deviation?`<div style="padding:0 12px 4px;font-size:11px;color:var(--orange);">⚠️ CH: ${sub.deviation}</div>`:''}
+        ${sub.qlkvNote?`<div style="padding:0 12px 4px;font-size:11px;color:var(--blue);">📝 QLKV: ${sub.qlkvNote}</div>`:''}
+        ${done ? `<div style="padding:0 12px 8px;"><span class="verdict ${sub.gdvVerdict==='pass'?'verdict-pass':'verdict-fail'}">${sub.gdvVerdict==='pass'?'✅ GĐV chốt Đạt':'❌ GĐV chốt Ko đạt'}</span> ${sub.gdvNote||''}</div>`
+          : `<div class="review-actions" style="padding:0 12px 12px;">
+              <button class="btn btn-pass btn-sm" onclick="gdvVerdict('${storeCode}','${item.id}','pass')">✅ Chốt Đạt</button>
+              <button class="btn btn-fail btn-sm" onclick="gdvVerdict('${storeCode}','${item.id}','fail')">❌ Chốt Ko đạt</button>
+              <input id="gdvNote-${item.id}" placeholder="Ghi chú GĐV" style="flex:1;padding:6px;border:1px solid #ddd;border-radius:6px;font-size:12px;">
+            </div>`
+        }
+      </div>`;
+  });
+  
+  const allQLKVdone = KSTT_ITEMS.every(item => !subs[item.id] || !subs[item.id].photo || !!subs[item.id].qlkvVerdict);
+  html += `<div style="display:flex;justify-content:space-between;padding:8px;">
+    <button class="btn btn-outline btn-sm" onclick="renderPage('bcha')">← Quay lại</button>
+    ${allQLKVdone && !subs._meta?.gdvFinalized?`<button class="btn btn-primary btn-sm" onclick="gdvChotAll('${storeCode}')">✅ Chốt tất cả Đạt</button>`:''}
+  </div></div>`;
+  
+  container.innerHTML = html;
+}
+
+function gdvVerdict(storeCode, itemId, verdict) {
+  const subs = APP.submissions[storeCode] || {};
+  if (!subs[itemId]) subs[itemId] = {};
+  const noteEl = document.getElementById('gdvNote-'+itemId);
+  subs[itemId].gdvVerdict = verdict;
+  subs[itemId].gdvNote = noteEl ? noteEl.value.trim() : '';
+  subs[itemId].gdvChotAt = new Date().toISOString();
+  
+  const allDone = KSTT_ITEMS.every(item => !subs[item.id] || !subs[item.id].photo || !!subs[item.id].gdvVerdict);
+  if (allDone && subs._meta) subs._meta.gdvFinalized = true;
+  
+  APP.submissions[storeCode] = subs;
+  saveState();
+  gdvReviewCH(storeCode);
+  toast(verdict==='pass'?'✅ Đã chốt Đạt':'❌ Đã chốt Ko đạt');
+}
+
+function gdvChotAll(storeCode) {
+  const subs = APP.submissions[storeCode] || {};
+  KSTT_ITEMS.forEach(item => {
+    if (subs[item.id] && subs[item.id].photo && !subs[item.id].gdvVerdict) {
+      subs[item.id].gdvVerdict = 'pass';
+      subs[item.id].gdvChotAt = new Date().toISOString();
+    }
+  });
+  if (subs._meta) subs._meta.gdvFinalized = true;
+  APP.submissions[storeCode] = subs;
+  saveState();
+  gdvReviewCH(storeCode);
+  toast('✅ Đã chốt tất cả Đạt');
+}
+
+// ========== GDM VIEW ==========
+function renderGDMView(container) {
+  const gdm = APP.user.name;
+  const myGDVs = [...new Set(SAMPLE_STORES.filter(s=>s.gdm===gdm).map(s=>s.gdv))];
+  
+  let html = `
+    <div class="info-bar">
+      <div><div class="title">🏢 GĐM: ${gdm}</div><div class="sub">${myGDVs.length} GĐV · ${SAMPLE_STORES.length} CH</div></div>
+      <span style="font-size:13px;cursor:pointer;" onclick="switchPage('dashboard')">📊 Dashboard →</span>
+    </div>`;
+  
+  myGDVs.forEach(gdv => {
+    const gdvStores = SAMPLE_STORES.filter(s => s.gdv === gdv);
+    let total=0, submitted=0, qlkvDone=0, gdvDone=0;
+    gdvStores.forEach(store => {
+      total++;
+      const subs = APP.submissions[store.code] || {};
+      if (KSTT_ITEMS.some(item => subs[item.id] && subs[item.id].photo)) submitted++;
+      if (subs._meta?.qlkvReviewed) qlkvDone++;
+      if (subs._meta?.gdvFinalized) gdvDone++;
+    });
+    
+    const pct = total>0?Math.round(submitted/total*100):0;
+    html += `<div class="dash-card" style="cursor:pointer;" onclick="gdmExpandGDV('${gdv}')">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div><b>👔 ${gdv}</b><br><span style="font-size:11px;color:var(--gray);">${gdvStores.length} CH</span></div>
+        <div style="text-align:right;">
+          <div style="font-size:20px;font-weight:800;color:${pct>=80?'var(--green)':pct>=50?'var(--orange)':'var(--red)'};">${submitted}/${total}</div>
+          <div style="font-size:10px;color:var(--gray);">QLKV:${qlkvDone} · GĐV:${gdvDone}</div>
+        </div>
+      </div>
+      <div class="progress-bar-wrap" style="margin-top:6px;"><div class="progress-bar" style="width:${pct}%;background:${pct>=80?'var(--green)':pct>=50?'var(--orange)':'var(--red)'};"></div></div>
+    </div>`;
+  });
+  
+  container.innerHTML = html;
+}
+
+function gdmExpandGDV(gdv) {
+  // Reuse GDV review view
+  const origGDV = APP.user.name;
+  APP.user = {name:gdv, role:'GDV'};
+  const container = document.getElementById('pageContent');
+  renderGDVView(container);
+  // Add back button
+  const backBtn = document.createElement('button');
+  backBtn.className = 'btn btn-outline btn-sm';
+  backBtn.textContent = '← Về GĐM';
+  backBtn.style.marginBottom = '10px';
+  backBtn.onclick = () => { APP.user={name:origGDV, role:'GDM'}; renderPage('bcha'); };
+  container.insertBefore(backBtn, container.firstChild);
+}
+
+// ========== DASHBOARD ==========
+function renderDashboard(container) {
+  const role = APP.user.role;
+  let scopeStores = SAMPLE_STORES;
+  
+  if (role === 'QLKV') scopeStores = SAMPLE_STORES.filter(s => s.qlkv === APP.user.name);
+  else if (role === 'GDV') scopeStores = SAMPLE_STORES.filter(s => s.gdv === APP.user.name);
+  
+  let totalStores = scopeStores.length;
+  let submitted=0, qlkvReviewed=0, gdvFinalized=0, failedItems=0;
+  
+  scopeStores.forEach(store => {
+    const subs = APP.submissions[store.code] || {};
+    if (KSTT_ITEMS.some(item => subs[item.id] && subs[item.id].photo)) submitted++;
+    if (subs._meta?.qlkvReviewed) qlkvReviewed++;
+    if (subs._meta?.gdvFinalized) gdvFinalized++;
+    KSTT_ITEMS.forEach(item => {
+      if (subs[item.id] && subs[item.id].qlkvVerdict === 'fail') failedItems++;
+    });
+  });
+  
+  container.innerHTML = `
+    <div class="dash-kpi-row">
+      <div class="dash-kpi"><div class="dash-kpi-val">${totalStores}</div><div class="dash-kpi-label">Tổng CH</div></div>
+      <div class="dash-kpi orange"><div class="dash-kpi-val">${submitted}</div><div class="dash-kpi-label">Đã BC</div></div>
+      <div class="dash-kpi"><div class="dash-kpi-val">${totalStores-submitted}</div><div class="dash-kpi-label">Chưa BC</div></div>
+      <div class="dash-kpi green"><div class="dash-kpi-val">${qlkvReviewed}</div><div class="dash-kpi-label">QLKV duyệt</div></div>
+      <div class="dash-kpi green"><div class="dash-kpi-val">${gdvFinalized}</div><div class="dash-kpi-label">GĐV chốt</div></div>
+      <div class="dash-kpi red"><div class="dash-kpi-val">${failedItems}</div><div class="dash-kpi-label">Ko đạt</div></div>
+    </div>
+    
+    <div class="dash-card">
+      <h3>📋 Chi tiết từng CH</h3>
+      ${scopeStores.map(store => {
+        const subs = APP.submissions[store.code] || {};
+        const meta = subs._meta || {};
+        const done = KSTT_ITEMS.filter(item => subs[item.id] && subs[item.id].photo).length;
+        const fail = KSTT_ITEMS.filter(item => subs[item.id] && subs[item.id].qlkvVerdict === 'fail').length;
+        const pct = Math.round(done/KSTT_ITEMS.length*100);
+        let status = '⏳ Chưa BC';
+        if (meta.gdvFinalized) status = '<span class="verdict verdict-pass">✅ Đã chốt</span>';
+        else if (meta.qlkvReviewed) status = '<span style="color:var(--blue);">✅ QLKV duyệt</span>';
+        else if (done > 0) status = '<span style="color:var(--orange);">⏳ Chờ duyệt</span>';
+        
+        return `<div class="dash-row" onclick="gdvReviewCH('${store.code}')">
+          <div><div class="dr-name">${store.code} - ${store.name}</div><div class="dr-meta">📸${done}/${KSTT_ITEMS.length} ${fail?'· ❌'+fail:''}</div></div>
+          <div style="display:flex;align-items:center;gap:6px;min-width:100px;">
+            <div class="progress-bar-wrap" style="flex:1;"><div class="progress-bar" style="width:${pct}%;background:${pct>=80?'var(--green)':pct>=50?'var(--orange)':'var(--red)'};"></div></div>
+            <span class="dr-status">${status}</span>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+// ========== UTILS ==========
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+init();
+</script>
+</body>
+</html>
