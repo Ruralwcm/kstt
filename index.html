@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Basic & Kiểm soát tuân thủ · By HaoDT v1.6</title>
+<title>Basic & Kiểm soát tuân thủ · By HaoDT v1.7</title>
 <style>
 :root {
   --blue: #1a5276; --blue-light: #2980b9; --red: #e74c3c; --orange: #e67e22;
@@ -176,7 +176,7 @@ body { font-family:'Segoe UI',Arial,sans-serif; background:var(--bg); color:#1a1
 <body>
 
 <div class="topbar">
-  <h1>📸 KSTT · <span class="title-text">Basic &amp; Kiểm soát tuân thủ</span> <span class="by">By HaoDT v1.6</span></h1>
+  <h1>📸 KSTT · <span class="title-text">Basic &amp; Kiểm soát tuân thủ</span> <span class="by">By HaoDT v1.7</span></h1>
   <div class="actions">
     <select id="selRole" onchange="onRoleChange()" style="max-width:80px;">
       <option value="">👁️ Xem</option>
@@ -353,43 +353,52 @@ function renderHome() {
     </div></div>`;
   }
   
-  // === SECTION 3: 3 columns GĐV | QLKV | CH ===
-  h += `<div class="card"><h3>📊 Chi tiết — ${task.name}</h3>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">`;
+  // === SECTION 3: Droplist Expand/Collapse ===
+  let gdvTotal=0, gdvSub=0, qlkvTotal=0, qlkvSub=0, chSub=0;
+  GDV_LIST.forEach(g=>{const gs=STORES.filter(s=>s.gdv===g);gdvTotal+=gs.length;gs.forEach(s=>{if(taskStats(task.id,s.code).sub)gdvSub++;});});
+  QLKV_LIST.forEach(q=>{const qs=STORES.filter(s=>s.qlkv===q);qlkvTotal+=qs.length;qs.forEach(s=>{if(taskStats(task.id,s.code).sub)qlkvSub++;});});
+  STORES.forEach(s=>{if(taskStats(task.id,s.code).sub)chSub++;});
   
-  // GĐV mini cards
-  h += `<div style="background:#f8f9fa;border-radius:8px;padding:8px 10px;cursor:pointer;" onclick="toggleSection('gdvDet')">
-    <div id="btn-gdvDet" data-label="👔 GĐV" style="font-weight:700;font-size:12px;text-align:center;margin-bottom:4px;">▾ 👔 GĐV</div>`;
+  h += `<div class="card"><h3>📊 Chi tiết — ${task.name}</h3>`;
+  
+  // GĐV droplist
+  h += `<div style="background:#f8f9fa;border-radius:8px;padding:10px 12px;margin-bottom:6px;cursor:pointer;" onclick="toggleSection('gdvDet')">
+    <div id="btn-gdvDet" data-label="👔 Theo GĐV" style="display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:13px;">
+      <span>▾ 👔 Theo GĐV</span><span style="font-size:12px;color:var(--blue);">${gdvSub}/${gdvTotal} CH đã BC</span>
+    </div></div>
+    <div id="gdvDet" style="padding:0 8px;">`;
   GDV_LIST.forEach(gdv=>{
-    const gs=STORES.filter(s=>s.gdv===gdv); let sS=0;
-    gs.forEach(s=>{const st=taskStats(task.id,s.code);if(st.sub)sS++;});
-    h += `<div style="font-size:11px;display:flex;justify-content:space-between;padding:2px 0;">${gdv}<b>${sS}/${gs.length}</b></div>`;
+    const gs=STORES.filter(s=>s.gdv===gdv); let sS=0,sQ=0,sG=0;
+    gs.forEach(s=>{const st=taskStats(task.id,s.code);if(st.sub)sS++;if(st.qD)sQ++;if(st.gD)sG++;});
+    h += `<div class="row-item" onclick="openTaskByGDV('${task.id}','${gdv}')"><div><div class="name">👔 ${gdv}</div><div class="meta">${gs.length} CH</div></div><div style="text-align:right;"><b>${sS}/${gs.length}</b><br><span style="font-size:10px;color:var(--gray);">QLKV:${sQ} · GĐV:${sG}</span></div></div>`;
   });
   h += `</div>`;
   
-  // QLKV mini cards
-  h += `<div style="background:#f8f9fa;border-radius:8px;padding:8px 10px;cursor:pointer;" onclick="toggleSection('qlkvDet')">
-    <div id="btn-qlkvDet" data-label="👤 QLKV" style="font-weight:700;font-size:12px;text-align:center;margin-bottom:4px;">▸ 👤 QLKV</div>`;
+  // QLKV droplist
+  h += `<div style="background:#f8f9fa;border-radius:8px;padding:10px 12px;margin-bottom:6px;cursor:pointer;" onclick="toggleSection('qlkvDet')">
+    <div id="btn-qlkvDet" data-label="👤 Theo QLKV" style="display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:13px;">
+      <span>▸ 👤 Theo QLKV</span><span style="font-size:12px;color:var(--gray);">${qlkvSub}/${qlkvTotal} CH đã BC</span>
+    </div></div>
+    <div id="qlkvDet" style="display:none;padding:0 8px;">`;
   QLKV_LIST.forEach(qlkv=>{
-    const qs=STORES.filter(s=>s.qlkv===qlkv); let sS=0;
-    qs.forEach(s=>{const st=taskStats(task.id,s.code);if(st.sub)sS++;});
-    h += `<div style="font-size:11px;display:flex;justify-content:space-between;padding:2px 0;">${qlkv}<b>${sS}/${qs.length}</b></div>`;
+    const qs=STORES.filter(s=>s.qlkv===qlkv); let sS=0,sQ=0;
+    qs.forEach(s=>{const st=taskStats(task.id,s.code);if(st.sub)sS++;if(st.qD)sQ++;});
+    h += `<div class="row-item"><div><div class="name">👤 ${qlkv}</div><div class="meta">${qs.length} CH</div></div><div style="text-align:right;"><b>${sS}/${qs.length}</b><div style="font-size:10px;color:var(--gray);">Đã duyệt:${sQ}</div></div></div>`;
   });
   h += `</div>`;
   
-  // CH mini cards
-  h += `<div style="background:#f8f9fa;border-radius:8px;padding:8px 10px;cursor:pointer;" onclick="toggleSection('chDet')">
-    <div id="btn-chDet" data-label="🏪 CH" style="font-weight:700;font-size:12px;text-align:center;margin-bottom:4px;">▸ 🏪 CH</div>`;
+  // CH droplist
+  h += `<div style="background:#f8f9fa;border-radius:8px;padding:10px 12px;margin-bottom:6px;cursor:pointer;" onclick="toggleSection('chDet')">
+    <div id="btn-chDet" data-label="🏪 Theo CH" style="display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:13px;">
+      <span>▸ 🏪 Theo CH</span><span style="font-size:12px;color:var(--gray);">${chSub}/${STORES.length} CH đã BC</span>
+    </div></div>
+    <div id="chDet" style="display:none;padding:0 8px;">`;
   STORES.forEach(st=>{
     const s=taskStats(task.id,st.code);
-    h += `<div style="font-size:11px;display:flex;justify-content:space-between;padding:2px 0;">${st.code} <b style="color:${s.pct>=80?'var(--green)':s.pct>=50?'var(--orange)':'var(--gray)'};">${s.done}/${s.total}</b></div>`;
+    let status=s.sub?(s.gD?'✅':s.qD?'✅QLKV':'⏳'):'⏳';
+    h += `<div class="row-item"><div><div class="name">${st.code} - ${st.name}</div><div class="meta">${st.gdv} · 📸${s.done}/${s.total}</div></div><div style="display:flex;align-items:center;gap:4px;min-width:100px;"><div class="progress-bar"><div class="fill" style="width:${s.pct}%;background:${s.pct>=80?'var(--green)':s.pct>=50?'var(--orange)':'var(--red)'};"></div></div><span style="font-size:11px;">${status}</span></div></div>`;
   });
-  h += `</div>`;
-  
-  h += `</div>`;
-  
-  // Expand details
-  h += `<div id="gdvDet" style="margin-top:8px;"></div><div id="qlkvDet" style="display:none;margin-top:8px;"></div><div id="chDet" style="display:none;margin-top:8px;"></div></div>`;
+  h += `</div></div>`;
   
   document.getElementById('appContent').className = 'main';
   document.getElementById('appContent').innerHTML = h;
