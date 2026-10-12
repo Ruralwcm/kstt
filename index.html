@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Basic & Kiểm soát tuân thủ · By HaoDT v1.1</title>
+<title>Basic & Kiểm soát tuân thủ · By HaoDT v1.2</title>
 <style>
 :root {
   --blue: #1a5276; --blue-light: #2980b9; --red: #e74c3c; --orange: #e67e22;
@@ -68,6 +68,20 @@ body { font-family:'Segoe UI',Arial,sans-serif; background:var(--bg); color:#1a1
 
 /* Task cards */
 .task-grid { display:flex; flex-direction:column; gap:10px; }
+.module-grid { display:flex; flex-direction:column; gap:10px; }
+.module-card {
+  background:var(--card); border-radius:var(--radius); padding:20px 18px; box-shadow:var(--shadow);
+  cursor:pointer; transition:all .2s; border-left:5px solid var(--blue);
+  display:flex; align-items:center; gap:14px;
+}
+.module-card:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(0,0,0,0.12); }
+.module-card:nth-child(1) { border-left-color: var(--blue-light); }
+.module-card:nth-child(2) { border-left-color: #6366f1; }
+.module-icon { font-size:36px; flex-shrink:0; }
+.module-info { flex:1; }
+.module-info .name { font-size:15px; font-weight:700; }
+.module-info .desc { font-size:12px; color:var(--gray); margin-top:2px; }
+.module-arrow { font-size:22px; color:#ccc; }
 .task-card {
   background:var(--card); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow);
   cursor:pointer; transition:all .2s; border-left:5px solid var(--blue-light);
@@ -162,7 +176,7 @@ body { font-family:'Segoe UI',Arial,sans-serif; background:var(--bg); color:#1a1
 <body>
 
 <div class="topbar">
-  <h1>📸 KSTT · <span class="title-text">Basic &amp; Kiểm soát tuân thủ</span> <span class="by">By HaoDT v1.1</span></h1>
+  <h1>📸 KSTT · <span class="title-text">Basic &amp; Kiểm soát tuân thủ</span> <span class="by">By HaoDT v1.2</span></h1>
   <div class="actions">
     <select id="selRole" onchange="onRoleChange()" style="max-width:80px;">
       <option value="">👁️ Xem</option>
@@ -296,11 +310,17 @@ function renderHome() {
     <div class="kpi-card red"><div class="val">${f}</div><div class="lbl">Ko đạt</div></div></div>`;
   
   // Module cards
-  h += `<div class="card"><h3>📸 Phương thức kiểm soát</h3>`;
-  h += `<div class="row-item" onclick="openBCHA()"><div><div class="name">KSTT: Báo cáo hình ảnh</div><div class="meta">CH chụp ảnh → QLKV duyệt → GĐV chốt</div></div><span style="font-size:18px;">→</span></div>`;
-  h += `<div class="row-item" onclick="openCheckCam()"><div><div class="name">KSTT: Check Cam</div><div class="meta">Kiểm tra tuân thủ qua camera</div></div><span style="font-size:18px;">→</span></div>`;
-  h += `<div class="row-item" style="opacity:0.4;cursor:default;"><div><div class="name">KSTT: Khác</div><div class="meta">Đang phát triển</div></div></div>`;
-  h += `</div>`;
+  h += `<div class="card"><h3>📸 Phương thức kiểm soát</h3><div class="module-grid">
+    <div class="module-card" onclick="openBCHA()">
+      <div class="module-icon">📸</div><div class="module-info"><div class="name">KSTT: Báo cáo hình ảnh</div><div class="desc">CH chụp ảnh → QLKV duyệt → GĐV chốt</div></div><div class="module-arrow">→</div>
+    </div>
+    <div class="module-card" onclick="openCheckCam()">
+      <div class="module-icon">📝</div><div class="module-info"><div class="name">KSTT: Check Cam</div><div class="desc">Kiểm tra tuân thủ qua camera</div></div><div class="module-arrow">→</div>
+    </div>
+    <div class="module-card" style="opacity:0.5;cursor:default;">
+      <div class="module-icon">📋</div><div class="module-info"><div class="name">KSTT: Khác</div><div class="desc">Đang phát triển</div></div>
+    </div>
+  </div></div>`;
   
   // By GĐV
   h += `<div class="card"><h3>📊 Theo GĐV</h3>`;
