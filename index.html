@@ -14,68 +14,33 @@
 body { font-family:'Segoe UI',Arial,sans-serif; background:var(--bg); color:#1a1a1a; min-height:100vh; }
 .hidden { display:none !important; }
 
-/* ---- TOPBAR ---- */
 .topbar {
   background: linear-gradient(135deg, #1e293b, #334155);
   color:#fff; padding:8px 14px; display:flex; align-items:center; justify-content:space-between;
   position:sticky; top:0; z-index:200; box-shadow:0 2px 8px rgba(0,0,0,0.2);
 }
 .topbar h1 { font-size:15px; font-weight:700; }
-.topbar .info { font-size:10px; opacity:0.85; cursor:pointer; }
+.topbar h1 span.by { font-size:10px; opacity:0.6; font-weight:400; margin-left:4px; }
+.topbar .actions { display:flex; gap:6px; align-items:center; }
+.topbar .actions button, .topbar .actions select {
+  padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.1); color:#fff; font-size:12px; cursor:pointer; font-family:inherit;
+}
+.topbar .actions select option { color:#333; }
 
-/* ---- LOGIN ---- */
-.login-wrap { max-width:400px; margin:40px auto; padding:14px; }
-.login-card {
-  background:var(--card); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow); text-align:center;
-}
-.login-card h2 { font-size:18px; color:var(--blue); margin-bottom:4px; }
-.login-card .sub { font-size:12px; color:var(--gray); margin-bottom:18px; }
-.login-card select {
-  width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; font-size:14px; margin-bottom:10px; font-family:inherit;
-}
-.login-card button {
-  width:100%; padding:14px; background:var(--blue-light); color:#fff; border:none;
-  border-radius:8px; font-size:15px; font-weight:600; cursor:pointer;
-}
-.role-tabs { display:flex; gap:6px; margin-bottom:14px; }
-.role-tab {
-  flex:1; padding:10px; border:2px solid #ddd; border-radius:8px; text-align:center;
-  font-size:12px; font-weight:600; cursor:pointer; background:#fff; transition:all .2s;
-}
-.role-tab.active { border-color:var(--blue-light); background:#ebf5fb; color:var(--blue); }
-
-/* ---- HOME ---- */
-.main { max-width:700px; margin:0 auto; padding:14px 12px 60px; }
-
-.module-grid { display:flex; flex-direction:column; gap:14px; margin-top:10px; }
-.module-card {
-  background:var(--card); border-radius:var(--radius); padding:20px 18px; box-shadow:var(--shadow);
-  cursor:pointer; transition:all .2s; border-left:5px solid var(--blue);
-  display:flex; align-items:center; gap:14px;
-}
-.module-card:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(0,0,0,0.12); }
-.module-card:nth-child(1) { border-left-color: var(--blue-light); }
-.module-card:nth-child(2) { border-left-color: #6366f1; }
-.module-card:nth-child(3) { border-left-color: var(--green); }
-.module-icon { font-size:36px; flex-shrink:0; }
-.module-info { flex:1; }
-.module-info .name { font-size:16px; font-weight:700; }
-.module-info .desc { font-size:12px; color:var(--gray); margin-top:2px; }
-.module-arrow { font-size:20px; color:#ccc; }
-
-/* ---- SUB-PAGE ---- */
-.sub-page { max-width:960px; margin:0 auto; padding:10px 12px 60px; }
+.main { max-width:960px; margin:0 auto; padding:12px 14px 60px; }
+.sub-page { max-width:960px; margin:0 auto; padding:10px 14px 60px; }
 .sub-header {
   display:flex; align-items:center; gap:10px; margin-bottom:12px;
-  padding:12px 14px; background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+  padding:10px 14px; background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
 }
 .sub-header .back { font-size:20px; cursor:pointer; color:var(--blue); }
-.sub-header .title { font-size:16px; font-weight:700; flex:1; }
+.sub-header .title { font-size:15px; font-weight:700; }
 
 /* ---- COMPONENTS ---- */
 .info-bar {
   background:var(--card); border-radius:var(--radius); padding:10px 14px; margin-bottom:10px;
-  box-shadow:var(--shadow); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;
+  box-shadow:var(--shadow); display:flex; justify-content:space-between; align-items:center;
 }
 .info-bar .title { font-weight:700; font-size:13px; }
 .info-bar .sub { font-size:11px; color:var(--gray); }
@@ -108,6 +73,21 @@ body { font-family:'Segoe UI',Arial,sans-serif; background:var(--bg); color:#1a1
 .progress-bar { flex:1; height:8px; background:#eee; border-radius:4px; margin:0 10px; overflow:hidden; }
 .progress-bar .fill { height:100%; border-radius:4px; transition:width .3s; }
 
+.module-grid { display:flex; flex-direction:column; gap:10px; }
+.module-card {
+  background:var(--card); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow);
+  cursor:pointer; transition:all .2s; border-left:5px solid var(--blue);
+  display:flex; align-items:center; gap:12px;
+}
+.module-card:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(0,0,0,0.12); }
+.module-card:nth-child(1) { border-left-color: var(--blue-light); }
+.module-card:nth-child(2) { border-left-color: #6366f1; }
+.module-icon { font-size:32px; }
+.module-info .name { font-size:15px; font-weight:700; }
+.module-info .desc { font-size:12px; color:var(--gray); margin-top:2px; }
+.module-arrow { font-size:20px; color:#ccc; margin-left:auto; }
+
+/* BCHA */
 .kstt-list { display:flex; flex-direction:column; gap:8px; }
 .kstt-item {
   background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
@@ -126,13 +106,13 @@ body { font-family:'Segoe UI',Arial,sans-serif; background:var(--bg); color:#1a1
 .badge-fail { color:var(--red); font-weight:600; }
 .kstt-body { padding:12px 14px; display:none; flex-direction:column; gap:10px; }
 
-.sample-img { width:100%; max-height:280px; object-fit:contain; border-radius:8px; border:1px solid #eee; background:#fafafa; }
+.sample-img { width:100%; max-height:260px; object-fit:contain; border-radius:8px; border:1px solid #eee; background:#fafafa; }
 .standard-text { font-size:12px; color:#333; background:#f8f9fa; padding:10px; border-radius:6px; line-height:1.5; }
 .standard-text b { color:var(--blue); }
 
 .capture-box {
   border:2px dashed #ccc; border-radius:8px; padding:20px; text-align:center; cursor:pointer;
-  transition:all .2s; background:#fafafa; min-height:80px;
+  background:#fafafa; min-height:80px;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
 }
 .capture-box:hover { border-color:var(--blue-light); background:#f0f7ff; }
@@ -148,14 +128,14 @@ body { font-family:'Segoe UI',Arial,sans-serif; background:var(--bg); color:#1a1
 }
 
 .btn {
-  padding:10px 20px; border:none; border-radius:8px; font-size:13px; font-weight:600;
+  padding:8px 16px; border:none; border-radius:7px; font-size:12px; font-weight:600;
   cursor:pointer; display:inline-flex; align-items:center; gap:4px;
 }
 .btn-primary { background:var(--blue-light); color:#fff; }
 .btn-pass { background:var(--green); color:#fff; }
 .btn-fail { background:var(--red); color:#fff; }
 .btn-outline { background:#fff; color:var(--blue); border:2px solid var(--blue-light); }
-.btn-sm { padding:6px 14px; font-size:12px; }
+.btn-sm { padding:5px 12px; font-size:11px; }
 .btn-block { width:100%; justify-content:center; padding:14px; font-size:15px; }
 
 .review-row { display:flex; gap:8px; flex-wrap:wrap; }
@@ -168,7 +148,7 @@ body { font-family:'Segoe UI',Arial,sans-serif; background:var(--bg); color:#1a1
 .verdict-pass { background:#eafaf1; color:var(--green); }
 .verdict-fail { background:#fdedec; color:var(--red); }
 
-.iframe-wrap { width:100%; height:calc(100vh - 70px); border:none; border-radius:var(--radius); background:#fff; }
+.iframe-wrap { width:100%; height:calc(100vh - 56px); border:none; background:#fff; }
 
 .toast {
   position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
@@ -182,96 +162,23 @@ body { font-family:'Segoe UI',Arial,sans-serif; background:var(--bg); color:#1a1
 
 <!-- TOPBAR -->
 <div class="topbar">
-  <h1>📸 KSTT · Basic & Kiểm soát tuân thủ <span style="font-size:11px;opacity:0.7;">By HaoDT v1.0</span></h1>
-  <span class="info hidden" id="userInfo" onclick="goHome()"></span>
-</div>
-
-<!-- LOGIN -->
-<div id="loginScreen" class="login-wrap">
-  <div class="login-card">
-    <h2>📸 KSTT · Kiểm Soát Thực Tế</h2>
-    <div class="sub">Basic & Kiểm soát tuân thủ · By HaoDT v1.0</div>
-    <div class="role-tabs" id="roleTabs">
-      <div class="role-tab active" data-role="CH" onclick="selectRole('CH')">🏪 CH</div>
-      <div class="role-tab" data-role="QLKV" onclick="selectRole('QLKV')">👤 QLKV</div>
-      <div class="role-tab" data-role="GDV" onclick="selectRole('GDV')">👔 GĐV</div>
-      <div class="role-tab" data-role="GDM" onclick="selectRole('GDM')">🏢 GĐM</div>
-    </div>
-    <div id="loginFormCH"><select id="selCH"><option value="">-- Chọn Cửa Hàng --</option></select></div>
-    <div id="loginFormQLKV" class="hidden"><select id="selQLKV"><option value="">-- Chọn QLKV --</option></select></div>
-    <div id="loginFormGDV" class="hidden"><select id="selGDV"><option value="">-- Chọn GĐV --</option></select></div>
-    <div id="loginFormGDM" class="hidden"><select id="selGDM"><option value="">-- Chọn GĐM --</option></select></div>
-    <button onclick="doLogin()">👉 Vào Hệ Thống</button>
-    <div style="font-size:10px;color:#aaa;margin-top:8px;">By HaoDT v1.0</div>
+  <h1>📸 KSTT · Basic & Kiểm soát tuân thủ <span class="by">By HaoDT v1.0</span></h1>
+  <div class="actions" id="topActions">
+    <select id="selRole" onchange="onRoleChange()" style="max-width:100px;">
+      <option value="">👁️ Xem</option>
+      <option value="QLKV">👤 QLKV</option>
+      <option value="GDV">👔 GĐV</option>
+      <option value="GDM">🏢 GĐM</option>
+    </select>
+    <select id="selUser" onchange="onUserChange()" style="max-width:140px;display:none;">
+      <option value="">-- Chọn --</option>
+    </select>
+    <button onclick="goHome()" style="font-size:18px;padding:2px 8px;" title="Trang chính">🏠</button>
   </div>
 </div>
 
-<!-- HOME - Module Selector -->
-<div id="homeScreen" class="main hidden">
-  <div class="info-bar">
-    <div><div class="title">👋 Xin chào, <span id="homeUserName"></span></div><div class="sub">Chọn phương thức kiểm soát bên dưới</div></div>
-  </div>
-  
-  <div class="module-grid">
-    <div class="module-card" onclick="openModule('bcha')">
-      <div class="module-icon">📸</div>
-      <div class="module-info">
-        <div class="name">KSTT: Báo cáo hình ảnh</div>
-        <div class="desc">CH chụp ảnh thực tế → QLKV duyệt → GĐV chốt → Dashboard</div>
-      </div>
-      <div class="module-arrow">→</div>
-    </div>
-    
-    <div class="module-card" onclick="openModule('checkcam')">
-      <div class="module-icon">📝</div>
-      <div class="module-info">
-        <div class="name">KSTT: Check Cam</div>
-        <div class="desc">Kiểm tra tuân thủ qua camera — checklist, chấm điểm, báo cáo</div>
-      </div>
-      <div class="module-arrow">→</div>
-    </div>
-    
-    <div class="module-card" onclick="openModule('other')">
-      <div class="module-icon">📋</div>
-      <div class="module-info">
-        <div class="name">KSTT: Khác</div>
-        <div class="desc">Các phương thức kiểm soát khác (đang phát triển)</div>
-      </div>
-      <div class="module-arrow">→</div>
-    </div>
-  </div>
-</div>
-
-<!-- MODULE: BCHA -->
-<div id="mod-bcha" class="sub-page hidden">
-  <div class="sub-header">
-    <span class="back" onclick="goHome()">←</span>
-    <span class="title">📸 KSTT: Báo cáo hình ảnh</span>
-  </div>
-  <div id="bchaContent"></div>
-</div>
-
-<!-- MODULE: CHECKCAM (iframe) -->
-<div id="mod-checkcam" class="hidden" style="position:fixed;top:42px;left:0;right:0;bottom:0;z-index:50;background:#fff;">
-  <div class="sub-header" style="margin:0;border-radius:0;">
-    <span class="back" onclick="goHome()">←</span>
-    <span class="title">📝 KSTT: Check Cam</span>
-  </div>
-  <iframe class="iframe-wrap" src="https://ruralwcm.github.io/checkcam/" style="height:calc(100% - 58px);"></iframe>
-</div>
-
-<!-- MODULE: OTHER -->
-<div id="mod-other" class="sub-page hidden">
-  <div class="sub-header">
-    <span class="back" onclick="goHome()">←</span>
-    <span class="title">📋 KSTT: Khác</span>
-  </div>
-  <div style="text-align:center;padding:60px 20px;color:var(--gray);">
-    <div style="font-size:48px;margin-bottom:12px;">🚧</div>
-    <div style="font-weight:600;">Đang phát triển</div>
-    <div style="font-size:12px;margin-top:4px;">Các phương thức kiểm soát khác sẽ được bổ sung</div>
-  </div>
-</div>
+<!-- MAIN CONTENT -->
+<div id="appContent" class="main"></div>
 
 <div class="toast" id="toast"></div>
 
@@ -302,78 +209,115 @@ const STORES = [
 
 const QLKV_LIST = [...new Set(STORES.map(s=>s.qlkv))].sort();
 const GDV_LIST = [...new Set(STORES.map(s=>s.gdv))].sort();
+const GDM_LIST = [...new Set(STORES.map(s=>s.gdm))].sort();
 
 // ========== STATE ==========
-const S = { role:'CH', user:null, module:null, submissions:{}, bchaTab:'list' };
+const S = { role:null, user:null, page:'dashboard', viewStore:null, submissions:{} };
 
 function init() {
-  const saved = localStorage.getItem('kstt_v3');
-  if (saved) { try { S.submissions = JSON.parse(saved).submissions||{}; } catch(e){} }
-  STORES.forEach(s => document.getElementById('selCH').innerHTML += `<option value="${s.code}">${s.code} - ${s.name}</option>`);
-  QLKV_LIST.forEach(q => document.getElementById('selQLKV').innerHTML += `<option value="${q}">${q}</option>`);
-  GDV_LIST.forEach(g => document.getElementById('selGDV').innerHTML += `<option value="${g}">${g}</option>`);
-  ['Nguyễn Đức Chung','Trần Đăng Hảo'].forEach(m => document.getElementById('selGDM').innerHTML += `<option value="${m}">${m}</option>`);
+  const saved = localStorage.getItem('kstt_v4');
+  if(saved){ try{S.submissions=JSON.parse(saved).submissions||{}}catch(e){} }
+  // Build select
+  QLKV_LIST.forEach(q=>document.getElementById('selUser').innerHTML+=`<option class="opt-qlkv" value="QLKV:${q}">${q}</option>`);
+  GDV_LIST.forEach(g=>document.getElementById('selUser').innerHTML+=`<option class="opt-gdv" value="GDV:${g}">${g}</option>`);
+  GDM_LIST.forEach(m=>document.getElementById('selUser').innerHTML+=`<option class="opt-gdm" value="GDM:${m}">${m}</option>`);
+  renderDashboard();
 }
-function save() { localStorage.setItem('kstt_v3', JSON.stringify({submissions:S.submissions})); }
+function save(){ localStorage.setItem('kstt_v4',JSON.stringify({submissions:S.submissions})); }
 
 // ========== AUTH ==========
-function selectRole(role) {
+function onRoleChange() {
+  const role = document.getElementById('selRole').value;
+  const selUser = document.getElementById('selUser');
+  if (!role) { S.role=null; S.user=null; selUser.style.display='none'; renderDashboard(); return; }
   S.role = role;
-  document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
-  document.querySelector(`.role-tab[data-role="${role}"]`).classList.add('active');
-  ['CH','QLKV','GDV','GDM'].forEach(r => document.getElementById('loginForm'+r).classList.toggle('hidden', r!==role));
+  selUser.style.display = 'inline-block';
+  // Filter options
+  selUser.querySelectorAll('option').forEach(o => {
+    const cls = o.className;
+    o.style.display = (!cls || cls.includes(role.toLowerCase())) ? '' : 'none';
+  });
+  selUser.value = '';
+  S.user = null;
 }
 
-function doLogin() {
-  const role = S.role; let user = null;
-  if (role==='CH') {
-    const code = document.getElementById('selCH').value; if(!code) return toast('⚠️ Chọn CH');
-    const s = STORES.find(s=>s.code===code); if(!s) return toast('Không tìm thấy');
-    user = {...s, role:'CH'};
-  } else if (role==='QLKV') { const n=document.getElementById('selQLKV').value; if(!n) return toast('⚠️ Chọn QLKV'); user={name:n,role:'QLKV'}; }
-  else if (role==='GDV') { const n=document.getElementById('selGDV').value; if(!n) return toast('⚠️ Chọn GĐV'); user={name:n,role:'GDV'}; }
-  else if (role==='GDM') { const n=document.getElementById('selGDM').value; if(!n) return toast('⚠️ Chọn GĐM'); user={name:n,role:'GDM'}; }
-  if (!user) return;
-  
-  S.user = user;
-  document.getElementById('loginScreen').classList.add('hidden');
-  document.getElementById('userInfo').classList.remove('hidden');
-  document.getElementById('userInfo').textContent = (user.role==='CH'?'🏪 ':'👤 ')+(user.name||user.code);
-  goHome();
+function onUserChange() {
+  const val = document.getElementById('selUser').value;
+  if (!val) { S.user=null; return; }
+  const [role, name] = val.split(':');
+  S.role = role; S.user = {name, role};
+  document.getElementById('selRole').value = role;
+  // stay on current page but may need refresh
 }
 
-function goHome() {
-  hideAll();
-  document.getElementById('homeScreen').classList.remove('hidden');
-  document.getElementById('homeUserName').textContent = S.user ? S.user.name||S.user.code : '';
-  S.module = null;
-}
-
-function hideAll() {
-  ['homeScreen','mod-bcha','mod-checkcam','mod-other'].forEach(id => document.getElementById(id).classList.add('hidden'));
-  document.getElementById('bchaContent').innerHTML = '';
-}
+// ========== NAV ==========
+function goHome() { S.page='dashboard'; S.viewStore=null; renderDashboard(); }
 
 function openModule(mod) {
-  hideAll();
-  S.module = mod;
   if (mod === 'bcha') {
-    document.getElementById('mod-bcha').classList.remove('hidden');
+    if (!S.user || !S.role) return toast('⚠️ Chọn vai trò & người dùng trước');
+    S.page = 'bcha';
+    S.viewStore = null;
     renderBCHA();
   } else if (mod === 'checkcam') {
-    document.getElementById('mod-checkcam').classList.remove('hidden');
-  } else if (mod === 'other') {
-    document.getElementById('mod-other').classList.remove('hidden');
+    S.page = 'checkcam';
+    renderCheckCam();
   }
 }
 
-// ========== HELPERS ==========
-function scopeStores() {
-  const r = S.user.role;
-  if (r==='QLKV') return STORES.filter(s=>s.qlkv===S.user.name);
-  if (r==='GDV') return STORES.filter(s=>s.gdv===S.user.name);
-  if (r==='GDM') return STORES;
-  return STORES;
+// ========== RENDER: DASHBOARD ==========
+function renderDashboard() {
+  const all = STORES;
+  let tot=all.length, sub=0, q=0, g=0, f=0;
+  all.forEach(st=>{ const s=chStats(st.code); if(s.sub)sub++; if(s.qD)q++; if(s.gD)g++; f+=s.fail; });
+
+  let h = `<div class="kpi-row">
+    <div class="kpi-card"><div class="val">${tot}</div><div class="lbl">Tổng CH</div></div>
+    <div class="kpi-card orange"><div class="val">${sub}</div><div class="lbl">Đã BC</div></div>
+    <div class="kpi-card"><div class="val">${tot-sub}</div><div class="lbl">Chưa BC</div></div>
+    <div class="kpi-card green"><div class="val">${q}</div><div class="lbl">QLKV duyệt</div></div>
+    <div class="kpi-card green"><div class="val">${g}</div><div class="lbl">GĐV chốt</div></div>
+    <div class="kpi-card red"><div class="val">${f}</div><div class="lbl">Ko đạt</div></div></div>`;
+
+  // Module cards
+  h += `<div class="module-grid">
+    <div class="module-card" onclick="openModule('bcha')">
+      <div class="module-icon">📸</div>
+      <div class="module-info"><div class="name">KSTT: Báo cáo hình ảnh</div><div class="desc">CH chụp ảnh → QLKV duyệt → GĐV chốt</div></div>
+      <div class="module-arrow">→</div>
+    </div>
+    <div class="module-card" onclick="openModule('checkcam')">
+      <div class="module-icon">📝</div>
+      <div class="module-info"><div class="name">KSTT: Check Cam</div><div class="desc">Kiểm tra tuân thủ qua camera</div></div>
+      <div class="module-arrow">→</div>
+    </div>
+    <div class="module-card" style="opacity:0.5;cursor:default;">
+      <div class="module-icon">📋</div>
+      <div class="module-info"><div class="name">KSTT: Khác</div><div class="desc">Đang phát triển</div></div>
+    </div>
+  </div>`;
+
+  // By GĐV
+  h += `<div class="card"><h3>📊 Theo GĐV</h3>`;
+  GDV_LIST.forEach(gdv => {
+    const gs = STORES.filter(s=>s.gdv===gdv); let sS=0,sQ=0,sG=0;
+    gs.forEach(s=>{const st=chStats(s.code);if(st.sub)sS++;if(st.qD)sQ++;if(st.gD)sG++;});
+    h += `<div class="row-item"><div><div class="name">👔 ${gdv}</div><div class="meta">${gs.length} CH</div></div><div style="text-align:right;"><b>${sS}/${gs.length}</b><br><span style="font-size:10px;color:var(--gray);">QLKV:${sQ} · GĐV:${sG}</span></div></div>`;
+  });
+  h += `</div>`;
+
+  // CH detail
+  h += `<div class="card"><h3>📋 Chi tiết CH</h3>`;
+  all.forEach(st => {
+    const s = chStats(st.code);
+    let pct = s.pct, bg = pct>=80?'var(--green)':pct>=50?'var(--orange)':'var(--red)';
+    let status = s.sub ? (s.gD?'✅':s.qD?'✅QLKV':'⏳') : '⏳';
+    h += `<div class="row-item" onclick="openStoreDetail('${st.code}')"><div><div class="name">${st.code} - ${st.name}</div><div class="meta">${st.gdv} · 📸${s.done}/${s.total}</div></div><div style="display:flex;align-items:center;gap:6px;min-width:120px;"><div class="progress-bar"><div class="fill" style="width:${pct}%;background:${bg};"></div></div><span style="font-size:12px;">${status}</span></div></div>`;
+  });
+  h += `</div>`;
+
+  document.getElementById('appContent').className = 'main';
+  document.getElementById('appContent').innerHTML = h;
 }
 
 function chStats(code) {
@@ -383,117 +327,77 @@ function chStats(code) {
   return {done, fail, total:KSTT_ITEMS.length, sub:done>0, qD:!!m.qlkvReviewed, gD:!!m.gdvFinalized, pct:Math.round(done/KSTT_ITEMS.length*100)};
 }
 
-// ========== BCHA MODULE ==========
-function renderBCHA() {
-  const c = document.getElementById('bchaContent'), role = S.user.role;
+// ========== STORE DETAIL (view-only from dashboard) ==========
+function openStoreDetail(code) {
+  const store = STORES.find(s=>s.code===code);
+  const subs = S.submissions[code]||{};
+  S.page = 'storeDetail'; S.viewStore = code;
   
-  // BCHA has tabs: CH view (if CH), Review (if QLKV/GDV), Dashboard
-  let tabs = '';
-  if (role === 'CH') tabs += `<button class="btn btn-sm ${S.bchaTab==='ch'?'btn-primary':''}" onclick="S.bchaTab='ch';renderBCHA();">📸 Báo cáo</button>`;
-  if (role === 'QLKV' || role === 'GDV' || role === 'GDM') tabs += `<button class="btn btn-sm ${S.bchaTab==='review'?'btn-primary':''}" onclick="S.bchaTab='review';renderBCHA();">✅ Kiểm duyệt</button>`;
-  tabs += `<button class="btn btn-sm ${S.bchaTab==='dashboard'?'btn-primary':''}" onclick="S.bchaTab='dashboard';renderBCHA();">📊 Dashboard</button>`;
-  tabs += `<button class="btn btn-sm ${S.bchaTab==='master'?'btn-primary':''}" onclick="S.bchaTab='master';renderBCHA();">📋 Đầu mục</button>`;
+  let h = `<div class="sub-header"><span class="back" onclick="goHome()">←</span><span class="title">${code} - ${store.name}</span></div>
+    <div style="font-size:12px;color:var(--gray);margin-bottom:12px;">GĐV: ${store.gdv} · QLKV: ${store.qlkv}</div>`;
   
-  // Default tab
-  if (!S.bchaTab || (S.bchaTab==='ch' && role!=='CH') || (S.bchaTab==='review' && role==='CH')) {
-    S.bchaTab = role === 'CH' ? 'ch' : 'review';
-  }
-  
-  let html = `<div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;">${tabs}</div>`;
-  
-  if (S.bchaTab === 'ch' && role === 'CH') html += buildCHView();
-  else if (S.bchaTab === 'review') html += buildReviewView();
-  else if (S.bchaTab === 'dashboard') html += buildDashView();
-  else if (S.bchaTab === 'master') html += buildMasterView();
-  
-  c.innerHTML = html;
-}
-
-// ---- CH VIEW ----
-function buildCHView() {
-  const store = S.user, subs = S.submissions[store.code]||{};
-  const done = KSTT_ITEMS.filter(i=>subs[i.id]&&subs[i.id].photo).length;
-  
-  let h = `<div class="info-bar"><div><div class="title">${store.code} - ${store.name}</div><div class="sub">GĐV: ${store.gdv} · QLKV: ${store.qlkv}</div></div><div style="font-weight:600;color:var(--blue);">📸 ${done}/${KSTT_ITEMS.length}</div></div>`;
-  
-  [...new Set(KSTT_ITEMS.map(i=>i.section))].forEach(sec => {
-    const items = KSTT_ITEMS.filter(i=>i.section===sec);
-    h += `<div class="card"><h3>📂 ${sec}</h3><div class="kstt-list">`;
-    items.forEach(item => {
-      const sub = subs[item.id], hp = !!(sub&&sub.photo), rv = sub&&sub.qlkvVerdict;
-      h += `<div class="kstt-item ${rv?(sub.qlkvVerdict==='pass'?'done':'fail'):(hp?'done':'')}">
-        <div class="kstt-header" onclick="toggleIt(this)">
-          <span class="name">${item.name}</span>
-          <span class="badge ${rv?(sub.qlkvVerdict==='pass'?'badge-done':'badge-fail'):(hp?'badge-done':'badge-todo')}">${rv?(sub.qlkvVerdict==='pass'?'✅ Đạt':'❌ Ko đạt'):(hp?'✅ Đã chụp':'⏳')}</span>
-        </div>
-        <div class="kstt-body">
-          <div style="font-size:11px;color:var(--gray);">📷 Ảnh mẫu:</div>
-          <img class="sample-img" src="${item.sample}" loading="lazy">
-          <div class="standard-text">📋 <b>Tiêu chuẩn:</b> ${item.standard}</div>
-          <div style="font-size:11px;color:var(--gray);">📸 Ảnh thực tế:</div>
-          <div class="capture-box ${hp?'has-photo':''}" onclick="takePhoto('${item.id}')">${hp?`<img src="${sub.photo}">`:'<div class="icon">📸</div><div class="text">Chạm để chụp</div>'}</div>
-          <textarea class="deviation-input" id="dev-${item.id}" placeholder="Ghi chú sai lệch...">${sub?sub.deviation||'':''}</textarea>
-        </div></div>`;
-    });
-    h += `</div></div>`;
+  KSTT_ITEMS.forEach(item => {
+    const sub = subs[item.id];
+    const hasPhoto = !!(sub&&sub.photo);
+    const reviewed = sub&&sub.qlkvVerdict;
+    h += `<div class="card"><div style="font-weight:600;font-size:13px;margin-bottom:8px;">${item.name} ${reviewed?'<span class="verdict '+(sub.qlkvVerdict==='pass'?'verdict-pass':'verdict-fail')+'">'+(sub.qlkvVerdict==='pass'?'✅ Đạt':'❌ Ko đạt')+'</span>':hasPhoto?'<span style="color:var(--orange);">⏳ Chờ duyệt</span>':''}</div>`;
+    if (hasPhoto) {
+      h += `<div class="review-row">
+        <div class="review-col"><div class="label">📷 Ảnh mẫu</div><img src="${item.sample}" style="width:100%;height:160px;object-fit:contain;background:#fafafa;" loading="lazy"></div>
+        <div class="review-col"><div class="label">📸 Ảnh thực tế</div><img src="${sub.photo}" style="width:100%;height:160px;object-fit:contain;background:#fafafa;" loading="lazy"></div></div>`;
+      if(sub.deviation) h += `<div style="font-size:11px;color:var(--orange);margin-top:4px;">⚠️ ${sub.deviation}</div>`;
+      if(sub.qlkvNote) h += `<div style="font-size:11px;color:var(--blue);">📝 QLKV: ${sub.qlkvNote}</div>`;
+      if(sub.gdvNote) h += `<div style="font-size:11px;color:var(--blue);">📝 GĐV: ${sub.gdvNote}</div>`;
+    } else {
+      h += `<div style="text-align:center;padding:20px;color:var(--gray);">⏳ Chưa có ảnh</div>`;
+    }
+    h += `</div>`;
   });
   
-  h += `<div style="text-align:center;padding:16px 0;"><button class="btn btn-primary btn-block" onclick="submitCH()">📤 Gửi Báo Cáo (${done}/${KSTT_ITEMS.length})</button></div>`;
-  return h;
+  if (S.user && (S.role==='QLKV'||S.role==='GDV'||S.role==='GDM')) {
+    h += `<div style="text-align:center;padding:12px;">
+      <button class="btn btn-primary" onclick="openModule('bcha');reviewStore('${code}');">✅ Vào Kiểm duyệt</button>
+    </div>`;
+  }
+  
+  document.getElementById('appContent').className = 'sub-page';
+  document.getElementById('appContent').innerHTML = h;
 }
 
-function toggleIt(hdr) { const b=hdr.nextElementSibling; b.style.display=b.style.display==='flex'?'none':'flex'; }
-
-function takePhoto(itemId) {
-  const inp = document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.capture='environment';
-  inp.onchange = e => {
-    const file = e.target.files[0]; if(!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        let w=img.width, h=img.height;
-        if(w>1024){h=h*1024/w;w=1024;} if(h>768){w=w*768/h;h=768;}
-        canvas.width=w; canvas.height=h;
-        canvas.getContext('2d').drawImage(img,0,0,w,h);
-        const url = canvas.toDataURL('image/jpeg',0.7);
-        const sc = S.user.code;
-        if(!S.submissions[sc]) S.submissions[sc]={};
-        if(!S.submissions[sc][itemId]) S.submissions[sc][itemId]={};
-        S.submissions[sc][itemId].photo = url;
-        S.submissions[sc][itemId].submittedAt = new Date().toISOString();
-        if(!S.submissions[sc]._meta) S.submissions[sc]._meta={qlkvReviewed:false,gdvFinalized:false};
-        save();
-        renderBCHA();
-      };
-      img.src = ev.target.result;
-    };
-    reader.readAsDataURL(file);
-  };
-  inp.click();
+// ========== BCHA MODULE ==========
+function renderBCHA() {
+  if (S.viewStore) { reviewStore(S.viewStore); return; }
+  
+  const c = document.getElementById('appContent');
+  c.className = 'sub-page';
+  
+  // Tabs
+  let tabs = `<div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;">`;
+  tabs += `<button class="btn btn-sm ${!S.bchaTab||S.bchaTab==='review'?'btn-primary':''}" onclick="S.bchaTab='review';renderBCHA();">✅ Kiểm duyệt</button>`;
+  tabs += `<button class="btn btn-sm ${S.bchaTab==='master'?'btn-primary':''}" onclick="S.bchaTab='master';renderBCHA();">📋 Đầu mục</button>`;
+  tabs += `</div>`;
+  
+  S.bchaTab = S.bchaTab || 'review';
+  
+  let body = '';
+  if (S.bchaTab === 'review') body = buildReviewList();
+  else if (S.bchaTab === 'master') body = buildMasterView();
+  
+  c.innerHTML = `<div class="sub-header"><span class="back" onclick="goHome()">←</span><span class="title">📸 KSTT: Báo cáo hình ảnh</span></div>${tabs}${body}`;
 }
 
-function submitCH() {
-  const sc = S.user.code, subs = S.submissions[sc]||{};
-  KSTT_ITEMS.forEach(i=>{ const el=document.getElementById('dev-'+i.id); if(el&&subs[i.id]) subs[i.id].deviation=el.value.trim(); });
-  const done = KSTT_ITEMS.filter(i=>subs[i.id]&&subs[i.id].photo).length;
-  if(!done) return toast('⚠️ Chụp ít nhất 1 ảnh');
-  subs._meta = subs._meta||{}; subs._meta.submittedAt = new Date().toISOString(); subs._meta.qlkvReviewed=false; subs._meta.gdvFinalized=false;
-  save();
-  toast(`✅ Đã gửi ${done}/${KSTT_ITEMS.length} mục`);
-  renderBCHA();
-}
-
-// ---- REVIEW VIEW ----
-function buildReviewView() {
-  const role = S.user.role, stores = scopeStores();
+function buildReviewList() {
+  const role = S.role;
+  const stores = role==='QLKV' ? STORES.filter(s=>s.qlkv===S.user.name)
+    : role==='GDV' ? STORES.filter(s=>s.gdv===S.user.name)
+    : role==='GDM' ? STORES : STORES;
+  
   let pending=[], done=[];
   stores.forEach(st => {
     const subs = S.submissions[st.code]||{};
-    if(!KSTT_ITEMS.some(i=>subs[i.id]&&subs[i.id].photo)) return;
-    if(role==='QLKV') { (subs._meta?.qlkvReviewed?done:pending).push(st); }
-    else { (subs._meta?.gdvFinalized?done:pending).push(st); }
+    if (!KSTT_ITEMS.some(i=>subs[i.id]&&subs[i.id].photo)) return;
+    if (role==='QLKV') (subs._meta?.qlkvReviewed?done:pending).push(st);
+    else (subs._meta?.gdvFinalized?done:pending).push(st);
   });
   
   const label = role==='QLKV'?'duyệt':'chốt';
@@ -501,22 +405,24 @@ function buildReviewView() {
   if(!pending.length) h += '<div style="text-align:center;padding:20px;color:var(--gray);">✅ Không có CH chờ</div>';
   else pending.forEach(st => {
     const dc = KSTT_ITEMS.filter(i=>(S.submissions[st.code]||{})[i.id]&&(S.submissions[st.code]||{})[i.id].photo).length;
-    h += `<div class="row-item" onclick="reviewOne('${st.code}')"><div><div class="name">${st.code} - ${st.name}</div><div class="meta">📸 ${dc}/${KSTT_ITEMS.length}</div></div><span style="color:var(--orange);">⏳ Chờ</span></div>`;
+    h += `<div class="row-item" onclick="reviewStore('${st.code}')"><div><div class="name">${st.code} - ${st.name}</div><div class="meta">📸 ${dc}/${KSTT_ITEMS.length}</div></div><span style="color:var(--orange);">⏳ Chờ</span></div>`;
   });
   h += `</div><div class="card"><h3>✅ Đã ${label} (${done.length})</h3>`;
   if(!done.length) h += '<div style="text-align:center;padding:20px;color:var(--gray);">Chưa có</div>';
-  else done.forEach(st => h += `<div class="row-item" onclick="reviewOne('${st.code}')"><div><div class="name">${st.code} - ${st.name}</div><div class="meta">${st.gdv}</div></div><span class="verdict verdict-pass">✅</span></div>`);
+  else done.forEach(st => h += `<div class="row-item" onclick="reviewStore('${st.code}')"><div><div class="name">${st.code} - ${st.name}</div><div class="meta">${st.gdv}</div></div><span class="verdict verdict-pass">✅</span></div>`);
   h += `</div>`;
   return h;
 }
 
-function reviewOne(storeCode) {
-  const store = STORES.find(s=>s.code===storeCode), subs = S.submissions[storeCode]||{}, role = S.user.role;
+function reviewStore(code) {
+  S.viewStore = code;
+  const store = STORES.find(s=>s.code===code), subs = S.submissions[code]||{}, role = S.role;
   const isQLKV = role==='QLKV';
+  const c = document.getElementById('appContent');
+  c.className = 'sub-page';
   
-  let h = `<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-    <div><b style="font-size:15px;">${storeCode} - ${store.name}</b><br><span style="font-size:11px;color:var(--gray);">GĐV: ${store.gdv} · QLKV: ${store.qlkv}</span></div>
-    <button class="btn btn-outline btn-sm" onclick="renderBCHA()">← Quay lại</button></div>`;
+  let h = `<div class="sub-header"><span class="back" onclick="S.viewStore=null;renderBCHA()">←</span><span class="title">${code} - ${store.name}</span></div>
+    <div style="font-size:12px;color:var(--gray);margin-bottom:12px;">GĐV: ${store.gdv} · QLKV: ${store.qlkv}</div>`;
   
   KSTT_ITEMS.forEach(item => {
     const sub = subs[item.id]; if(!sub||!sub.photo) return;
@@ -528,16 +434,16 @@ function reviewOne(storeCode) {
         <div class="review-col"><div class="label">📸 Thực tế</div><img src="${sub.photo}" style="width:100%;height:140px;object-fit:contain;background:#fafafa;" loading="lazy"></div></div>
       ${sub.deviation?`<div style="padding:0 12px 4px;font-size:11px;color:var(--orange);">⚠️ ${sub.deviation}</div>`:''}
       ${sub.qlkvNote?`<div style="padding:0 12px 4px;font-size:11px;color:var(--blue);">📝 QLKV: ${sub.qlkvNote}</div>`:''}
-      ${done ? `<div style="padding:0 12px 8px;"><span class="verdict ${(isQLKV?sub.qlkvVerdict:sub.gdvVerdict)==='pass'?'verdict-pass':'verdict-fail'}">${isQLKV?(sub.qlkvVerdict==='pass'?'✅ Đạt':'❌ Ko đạt'):(sub.gdvVerdict==='pass'?'✅ Chốt Đạt':'❌ Chốt Ko đạt')}</span> ${isQLKV?(sub.qlkvNote||''):(sub.gdvNote||'')}</div>`
+      ${done ? `<div style="padding:0 12px 8px;"><span class="verdict ${(isQLKV?sub.qlkvVerdict:sub.gdvVerdict)==='pass'?'verdict-pass':'verdict-fail'}">${(isQLKV?sub.qlkvVerdict:sub.gdvVerdict)==='pass'?'✅ Đạt':'❌ Ko đạt'}</span> ${isQLKV?(sub.qlkvNote||''):(sub.gdvNote||'')}</div>`
         : `<div class="review-actions" style="padding:0 12px 12px;">
-            <button class="btn btn-pass btn-sm" onclick="verdict('${storeCode}','${item.id}','${isQLKV?'qlkv':'gdv'}','pass')">✅ Đạt</button>
-            <button class="btn btn-fail btn-sm" onclick="verdict('${storeCode}','${item.id}','${isQLKV?'qlkv':'gdv'}','fail')">❌ Ko đạt</button>
+            <button class="btn btn-pass btn-sm" onclick="verdict('${code}','${item.id}','${isQLKV?'qlkv':'gdv'}','pass')">✅ Đạt</button>
+            <button class="btn btn-fail btn-sm" onclick="verdict('${code}','${item.id}','${isQLKV?'qlkv':'gdv'}','fail')">❌ Ko đạt</button>
             <input id="vnt-${item.id}" placeholder="Ghi chú" style="flex:1;padding:6px;border:1px solid #ddd;border-radius:6px;font-size:12px;">
           </div>`}
     </div>`;
   });
-  h += `<div style="text-align:center;padding:8px;"><button class="btn btn-outline btn-sm" onclick="renderBCHA()">← Quay lại</button></div></div>`;
-  document.getElementById('bchaContent').innerHTML = h;
+  h += `<div style="text-align:center;padding:8px;"><button class="btn btn-outline btn-sm" onclick="S.viewStore=null;renderBCHA()">← Quay lại</button></div>`;
+  c.innerHTML = h;
 }
 
 function verdict(code, itemId, level, v) {
@@ -548,41 +454,9 @@ function verdict(code, itemId, level, v) {
   else { subs[itemId].gdvVerdict=v; subs[itemId].gdvNote=note; subs[itemId].gdvChotAt=new Date().toISOString();
     if(KSTT_ITEMS.every(i=>!subs[i.id]||!subs[i.id].photo||!!subs[i.id].gdvVerdict)&&subs._meta) subs._meta.gdvFinalized=true; }
   S.submissions[code]=subs; save();
-  reviewOne(code);
+  reviewStore(code);
 }
 
-// ---- DASHBOARD ----
-function buildDashView() {
-  const all = STORES; let tot=all.length, sub=0, q=0, g=0, f=0;
-  all.forEach(st=>{ const s=chStats(st.code); if(s.sub)sub++; if(s.qD)q++; if(s.gD)g++; f+=s.fail; });
-  
-  let h = `<div class="kpi-row">
-    <div class="kpi-card"><div class="val">${tot}</div><div class="lbl">Tổng CH</div></div>
-    <div class="kpi-card orange"><div class="val">${sub}</div><div class="lbl">Đã BC</div></div>
-    <div class="kpi-card"><div class="val">${tot-sub}</div><div class="lbl">Chưa BC</div></div>
-    <div class="kpi-card green"><div class="val">${q}</div><div class="lbl">QLKV duyệt</div></div>
-    <div class="kpi-card green"><div class="val">${g}</div><div class="lbl">GĐV chốt</div></div>
-    <div class="kpi-card red"><div class="val">${f}</div><div class="lbl">Ko đạt</div></div></div>`;
-  
-  h += `<div class="card"><h3>📊 Theo GĐV</h3>`;
-  GDV_LIST.forEach(gdv => {
-    const gs = STORES.filter(s=>s.gdv===gdv); let sS=0,sQ=0,sG=0;
-    gs.forEach(s=>{const st=chStats(s.code);if(st.sub)sS++;if(st.qD)sQ++;if(st.gD)sG++;});
-    h += `<div class="row-item"><div><div class="name">👔 ${gdv}</div><div class="meta">${gs.length} CH</div></div><div><b>${sS}/${gs.length}</b><div style="font-size:10px;color:var(--gray);">QLKV:${sQ} · GĐV:${sG}</div></div></div>`;
-  });
-  h += `</div>`;
-  
-  h += `<div class="card"><h3>📋 Chi tiết</h3>`;
-  all.forEach(st => {
-    const s = chStats(st.code);
-    let status = s.sub?(s.gD?'<span class="verdict verdict-pass">✅</span>':s.qD?'<span style="color:var(--blue);">✅ QLKV</span>':'<span style="color:var(--orange);">⏳</span>'):'<span style="color:var(--gray);">⏳</span>';
-    h += `<div class="row-item"><div><div class="name">${st.code} - ${st.name}</div><div class="meta">${st.gdv} · 📸${s.done}/${s.total}</div></div><div style="display:flex;align-items:center;gap:6px;"><div class="progress-bar"><div class="fill" style="width:${s.pct}%;background:${s.pct>=80?'var(--green)':s.pct>=50?'var(--orange)':'var(--red)'};"></div></div>${status}</div></div>`;
-  });
-  h += `</div>`;
-  return h;
-}
-
-// ---- MASTER ----
 function buildMasterView() {
   const sections = [...new Set(KSTT_ITEMS.map(i=>i.section))];
   let h = `<div class="info-bar"><div><div class="title">📋 Danh mục đầu mục KSTT</div><div class="sub">${KSTT_ITEMS.length} mục · ${sections.length} nhóm</div></div></div>`;
@@ -591,13 +465,20 @@ function buildMasterView() {
     KSTT_ITEMS.filter(i=>i.section===sec).forEach(item => {
       h += `<div style="margin-bottom:10px;border:1px solid #eee;border-radius:8px;overflow:hidden;">
         <div style="font-weight:600;font-size:13px;padding:8px 12px;background:#f8f9fa;">${item.name}</div>
-        <div style="padding:8px 12px;">
-          <img src="${item.sample}" style="width:100%;max-height:180px;object-fit:contain;background:#fafafa;border-radius:6px;" loading="lazy">
-          <div class="standard-text" style="margin-top:6px;">📋 ${item.standard}</div></div></div>`;
+        <div style="padding:8px 12px;"><img src="${item.sample}" style="width:100%;max-height:180px;object-fit:contain;background:#fafafa;border-radius:6px;" loading="lazy">
+        <div class="standard-text" style="margin-top:6px;">📋 ${item.standard}</div></div></div>`;
     });
     h += `</div>`;
   });
   return h;
+}
+
+// ========== CHECKCAM ==========
+function renderCheckCam() {
+  const c = document.getElementById('appContent');
+  c.className = 'sub-page';
+  c.innerHTML = `<div class="sub-header"><span class="back" onclick="goHome()">←</span><span class="title">📝 KSTT: Check Cam</span></div>
+    <iframe class="iframe-wrap" src="https://ruralwcm.github.io/checkcam/"></iframe>`;
 }
 
 function toast(msg) { const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2500); }
