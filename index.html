@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Basic & Kiểm soát tuân thủ · By HaoDT v1.2</title>
+<title>Basic & Kiểm soát tuân thủ · By HaoDT v1.3</title>
 <style>
 :root {
   --blue: #1a5276; --blue-light: #2980b9; --red: #e74c3c; --orange: #e67e22;
@@ -176,7 +176,7 @@ body { font-family:'Segoe UI',Arial,sans-serif; background:var(--bg); color:#1a1
 <body>
 
 <div class="topbar">
-  <h1>📸 KSTT · <span class="title-text">Basic &amp; Kiểm soát tuân thủ</span> <span class="by">By HaoDT v1.2</span></h1>
+  <h1>📸 KSTT · <span class="title-text">Basic &amp; Kiểm soát tuân thủ</span> <span class="by">By HaoDT v1.3</span></h1>
   <div class="actions">
     <select id="selRole" onchange="onRoleChange()" style="max-width:80px;">
       <option value="">👁️ Xem</option>
@@ -237,7 +237,7 @@ const QLKV_LIST = [...new Set(STORES.map(s=>s.qlkv))].sort();
 const GDV_LIST = [...new Set(STORES.map(s=>s.gdv))].sort();
 
 // ========== STATE ==========
-const S = { role:null, user:null, view:'home', taskId:null, tab:'review', submissions:{} };
+const S = { role:null, user:null, view:'home', taskId:null, tab:'review', activeModule:null, activeTaskId:null, submissions:{} };
 
 function init() {
   const saved = localStorage.getItem('kstt_v5');
@@ -294,13 +294,20 @@ function scopeStores() {
 
 // ========== HOME: Dashboard + Task List ==========
 function renderHome() {
-  const task = TASKS[0];
+  // Default: BCHA module, latest task
+  if (!S.activeModule) S.activeModule = 'bcha';
+  if (!S.activeTaskId) S.activeTaskId = TASKS[0].id;
+  
+  const mod = S.activeModule;
+  const task = TASKS.find(t=>t.id===S.activeTaskId) || TASKS[0];
+  
   let tot=STORES.length, sub=0, q=0, g=0, f=0;
   STORES.forEach(st=>{
     const s=taskStats(task.id, st.code);
     if(s.sub)sub++; if(s.qD)q++; if(s.gD)g++; f+=s.fail;
   });
   
+  // === KPI Row ===
   let h = `<div class="kpi-row">
     <div class="kpi-card"><div class="val">${tot}</div><div class="lbl">Tổng CH</div></div>
     <div class="kpi-card orange"><div class="val">${sub}</div><div class="lbl">Đã BC</div></div>
@@ -309,21 +316,48 @@ function renderHome() {
     <div class="kpi-card green"><div class="val">${g}</div><div class="lbl">GĐV chốt</div></div>
     <div class="kpi-card red"><div class="val">${f}</div><div class="lbl">Ko đạt</div></div></div>`;
   
-  // Module cards
+  // === SECTION 1: Phương thức kiểm soát ===
   h += `<div class="card"><h3>📸 Phương thức kiểm soát</h3><div class="module-grid">
-    <div class="module-card" onclick="openBCHA()">
-      <div class="module-icon">📸</div><div class="module-info"><div class="name">KSTT: Báo cáo hình ảnh</div><div class="desc">CH chụp ảnh → QLKV duyệt → GĐV chốt</div></div><div class="module-arrow">→</div>
+    <div class="module-card${mod==='bcha'?' style="box-shadow:0 0 0 2px var(--blue-light);"':''}" onclick="setModule('bcha')">
+      <div class="module-icon">📸</div><div class="module-info"><div class="name">KSTT: Báo cáo hình ảnh</div><div class="desc">CH chụp ảnh → QLKV duyệt → GĐV chốt</div></div>
     </div>
-    <div class="module-card" onclick="openCheckCam()">
-      <div class="module-icon">📝</div><div class="module-info"><div class="name">KSTT: Check Cam</div><div class="desc">Kiểm tra tuân thủ qua camera</div></div><div class="module-arrow">→</div>
+    <div class="module-card${mod==='checkcam'?' style="box-shadow:0 0 0 2px var(--blue-light);"':''}" onclick="setModule('checkcam')">
+      <div class="module-icon">📝</div><div class="module-info"><div class="name">KSTT: Check Cam</div><div class="desc">Kiểm tra tuân thủ qua camera</div></div>
     </div>
-    <div class="module-card" style="opacity:0.5;cursor:default;">
+    <div class="module-card" style="opacity:0.4;cursor:default;">
       <div class="module-icon">📋</div><div class="module-info"><div class="name">KSTT: Khác</div><div class="desc">Đang phát triển</div></div>
     </div>
   </div></div>`;
   
-  // By GĐV
-  h += `<div class="card"><h3>📊 Theo GĐV</h3>`;
+  // === SECTION 2: Top Tasks ===
+  if (mod === 'bcha') {
+    const topTasks = TASKS.slice(0, 3);
+    h += `<div class="card"><h3>📋 Task đang triển khai — Báo cáo hình ảnh</h3><div class="task-grid">`;
+    topTasks.forEach(t => {
+      let tSub=0, tQ=0, tG=0, tF=0;
+      STORES.forEach(st=>{const s=taskStats(t.id,st.code);if(s.sub)tSub++;if(s.qD)tQ++;if(s.gD)tG++;tF+=s.fail;});
+      h += `<div class="task-card${S.activeTaskId===t.id?' style="box-shadow:0 0 0 2px var(--blue-light);"':''}" onclick="setTask('${t.id}')">
+        <div class="task-name">📋 ${t.name}</div><div class="task-meta">${t.date} · ${t.items.length} đầu mục</div>
+        <div class="task-stats"><span>📸 BC: <b>${tSub}/${tot}</b></span><span>✅ Duyệt: <b>${tQ}</b></span><span>🔒 Chốt: <b>${tG}</b></span><span>❌ Ko đạt: <b>${tF}</b></span></div>
+        <div style="margin-top:6px;"><button class="btn btn-primary btn-sm" onclick="event.stopPropagation();openTask('${t.id}')">👉 Vào kiểm duyệt</button></div>
+      </div>`;
+    });
+    h += `</div></div>`;
+  } else if (mod === 'checkcam') {
+    h += `<div class="card"><h3>📋 Task đang triển khai — Check Cam</h3><div class="task-grid">
+      <div class="task-card" onclick="openCheckCam()">
+        <div class="task-name">📝 Check Cam · Đợt T10/2026</div><div class="task-meta">Đồng phục · Bảng tên · Tóc tai · Vệ sinh</div>
+        <div class="task-stats"><span>📸 Đã check: <b>0/${tot}</b></span></div>
+        <div style="margin-top:6px;"><button class="btn btn-primary btn-sm" onclick="event.stopPropagation();openCheckCam()">👉 Vào Check Cam</button></div>
+      </div>
+    </div></div>`;
+  }
+  
+  // === SECTION 3: Theo GĐV/QLKV/CH ===
+  h += `<div class="card"><h3>📊 Chi tiết — ${task.name}</h3>`;
+  
+  // GĐV section
+  h += `<div style="font-weight:600;font-size:12px;color:var(--blue);padding:6px 0;cursor:pointer;" onclick="toggleSection('gdvDet')">👔 Theo GĐV ▾</div><div id="gdvDet">`;
   GDV_LIST.forEach(gdv=>{
     const gs=STORES.filter(s=>s.gdv===gdv); let sS=0,sQ=0,sG=0;
     gs.forEach(s=>{const st=taskStats(task.id,s.code);if(st.sub)sS++;if(st.qD)sQ++;if(st.gD)sG++;});
@@ -331,17 +365,38 @@ function renderHome() {
   });
   h += `</div>`;
   
-  // CH detail
-  h += `<div class="card"><h3>📋 Chi tiết CH</h3>`;
-  STORES.forEach(st=>{
-    const s=taskStats(task.id,st.code);
-    let status=s.sub?(s.gD?'<span class="verdict verdict-pass">✅</span>':s.qD?'<span style="color:var(--blue);">✅QLKV</span>':'<span style="color:var(--orange);">⏳</span>'):'<span style="color:var(--gray);">⏳</span>';
-    h += `<div class="row-item"><div><div class="name">${st.code} - ${st.name}</div><div class="meta">${st.gdv} · 📸${s.done}/${s.total}</div></div><div style="display:flex;align-items:center;gap:4px;min-width:100px;"><div class="progress-bar"><div class="fill" style="width:${s.pct}%;background:${s.pct>=80?'var(--green)':s.pct>=50?'var(--orange)':'var(--red)'};"></div></div><span style="font-size:11px;">${status}</span></div></div>`;
+  // QLKV section  
+  h += `<div style="font-weight:600;font-size:12px;color:var(--blue);padding:6px 0;cursor:pointer;margin-top:6px;" onclick="toggleSection('qlkvDet')">👤 Theo QLKV ▾</div><div id="qlkvDet" style="display:none;">`;
+  QLKV_LIST.forEach(qlkv=>{
+    const qs=STORES.filter(s=>s.qlkv===qlkv); let sS=0,sQ=0;
+    qs.forEach(s=>{const st=taskStats(task.id,s.code);if(st.sub)sS++;if(st.qD)sQ++;});
+    h += `<div class="row-item"><div><div class="name">👤 ${qlkv}</div><div class="meta">${qs.length} CH</div></div><div style="text-align:right;"><b>${sS}/${qs.length}</b><div style="font-size:10px;color:var(--gray);">Đã duyệt:${sQ}</div></div></div>`;
   });
   h += `</div>`;
   
+  // CH section
+  h += `<div style="font-weight:600;font-size:12px;color:var(--blue);padding:6px 0;cursor:pointer;margin-top:6px;" onclick="toggleSection('chDet')">🏪 Theo CH ▾</div><div id="chDet" style="display:none;">`;
+  STORES.forEach(st=>{
+    const s=taskStats(task.id,st.code);
+    let status=s.sub?(s.gD?'✅':s.qD?'✅QLKV':'⏳'):'⏳';
+    h += `<div class="row-item"><div><div class="name">${st.code} - ${st.name}</div><div class="meta">${st.gdv} · 📸${s.done}/${s.total}</div></div><div style="display:flex;align-items:center;gap:4px;min-width:100px;"><div class="progress-bar"><div class="fill" style="width:${s.pct}%;background:${s.pct>=80?'var(--green)':s.pct>=50?'var(--orange)':'var(--red)'};"></div></div><span style="font-size:11px;">${status}</span></div></div>`;
+  });
+  h += `</div></div>`;
+  
   document.getElementById('appContent').className = 'main';
   document.getElementById('appContent').innerHTML = h;
+}
+
+let _secState = {};
+function setModule(mod) {
+  S.activeModule = mod;
+  S.activeTaskId = (mod==='bcha') ? TASKS[0].id : null;
+  renderHome();
+}
+function setTask(taskId) { S.activeTaskId = taskId; renderHome(); }
+function toggleSection(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
 }
 
 // ========== TASK VIEW ==========
