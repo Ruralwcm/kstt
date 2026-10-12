@@ -212,10 +212,10 @@ body { font-family:'Segoe UI',Arial,sans-serif; background:var(--light); color:#
 <!-- APP -->
 <div id="appScreen" class="main hidden">
   <div class="nav-tabs" id="navTabs">
-    <div class="nav-tab active" data-page="dashboard" onclick="switchTab('dashboard')">📊 Dashboard</div>
-    <div class="nav-tab" data-page="bcha" onclick="switchTab('bcha')">📸 Báo cáo HA</div>
+    <div class="nav-tab active" data-page="master" onclick="switchTab('master')">📋 Đầu mục KSTT</div>
+    <div class="nav-tab" data-page="bcha" onclick="switchTab('bcha')">📸 Báo cáo hình ảnh</div>
     <div class="nav-tab" data-page="review" onclick="switchTab('review')">✅ Kiểm duyệt</div>
-    <div class="nav-tab" data-page="master" onclick="switchTab('master')">📋 Đầu mục KSTT</div>
+    <div class="nav-tab" data-page="dashboard" onclick="switchTab('dashboard')">📊 Dashboard</div>
   </div>
   <div id="pageContent"></div>
 </div>
@@ -301,14 +301,14 @@ function doLogin() {
   document.getElementById('userInfo').classList.remove('hidden');
   document.getElementById('userInfo').textContent = (user.role==='CH'?'🏪 ':'👤 ')+(user.name||user.code);
   
-  // Show/hide tabs based on role
+  // Show all tabs for all roles
   const navTabs = document.getElementById('navTabs');
-  navTabs.querySelector('[data-page="bcha"]').classList.toggle('hidden', role!=='CH');
+  // All tabs visible
   
-  A.tab = 'dashboard';
+  A.tab = 'master';
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.querySelector('.nav-tab[data-page="dashboard"]').classList.add('active');
-  renderTab('dashboard');
+  document.querySelector('.nav-tab[data-page="master"]').classList.add('active');
+  renderTab('master');
 }
 
 function doLogout() {
@@ -729,7 +729,7 @@ function expandGDVTab(gdv) {
     (subs._meta?.gdvFinalized?done:pending).push(store);
   });
   
-  let html = `<button class="btn btn-outline btn-sm" style="margin-bottom:10px;" onclick="A.user=${JSON.stringify(origUser)};renderTab('dashboard');">← Về Dashboard</button>
+  let html = `<button class="btn btn-outline btn-sm" style="margin-bottom:10px;" onclick="A.user=${JSON.stringify(origUser)};renderTab('master');">← Về Dashboard</button>
     <div class="card"><h3>👔 ${gdv} — Chờ chốt (${pending.length})</h3>`;
   
   pending.forEach(store => {
